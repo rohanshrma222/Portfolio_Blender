@@ -15,30 +15,31 @@ body {
 }
 
 body.dark-theme {
-  background-color: #7F7FFF;
+  background-color: #2d3aae;
 }
 
-/* Canvas takes up the full screen */
+/* Main Wrapper */
+.experience-wrapper {
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  top: 0;
+  left: 0;
+}
+
+/* 3D Canvas - Background Layer */
 .experience-canvas {
-  width: 100vw !important;
-  height: 100vh !important;
-}
-
-/* This container holds all the UI inside the canvas */
-.ui-container {
-  position: relative;
+  position: fixed !important;
   width: 100%;
   height: 100%;
-  pointer-events: none; /* Allows clicks to pass through to the 3D scene */
-  color: #222222;
-}
-.dark-theme .ui-container {
-  color: #f1eee4;
+  top: 0;
+  left: 0;
+  z-index: 1;
 }
 
-/* Preloader */
+/* Preloader - Topmost Layer */
 .preloader {
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   width: 100%;
@@ -62,7 +63,7 @@ body.dark-theme {
   100% { transform: scale(1); }
 }
 
-/* Scrollable Page */
+/* Scrollable Page - Middle Layer */
 .page {
   position: absolute;
   top: 0;
@@ -70,15 +71,24 @@ body.dark-theme {
   width: 100%;
   height: 100%;
   overflow: hidden;
-  pointer-events: auto; /* Enable scrolling on this element */
+  z-index: 10;
 }
 
-/* Hero Content */
+/* Hero Content & UI - Top Layer */
 .hero-wrapper {
-  position: relative;
-  height: 100%;
+  position: fixed;
   width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  color: #222222;
+  z-index: 11;
+  pointer-events: none;
 }
+.dark-theme .hero-wrapper {
+  color: #f1eee4;
+}
+
 .intro-text { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); }
 .arrow-svg-wrapper { position: absolute; top: 90%; left: 50%; transform: translateX(-50%); }
 .hero-main { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; }
@@ -88,11 +98,24 @@ body.dark-theme {
 
 /* Theme Toggle */
 .toggle-bar {
-  position: absolute;
+  position: fixed;
   top: 48px;
   right: 48px;
-  z-index: 11;
+  z-index: 12;
   pointer-events: auto;
+  /* FIX: Added flex properties for alignment */
+  display: flex;
+  align-items: center;
+}
+.sun-wrapper, .moon-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #222222;
+  margin: 0 10px;
+}
+.dark-theme .sun-wrapper, .dark-theme .moon-wrapper {
+    color: #f1eee4;
 }
 .toggle-button { cursor: pointer; width: 80px; height: 40px; background-color: #e5a1aa; border: none; border-radius: 20px; position: relative; }
 .toggle-circle { position: absolute; top: 5px; left: 5px; width: 30px; height: 30px; border-radius: 50%; background-color: #f1eee4; }
