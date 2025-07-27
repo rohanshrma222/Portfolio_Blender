@@ -15,7 +15,7 @@ body {
 }
 
 body.dark-theme {
-  background-color: #43439c;
+  background-color: #2d3aae;
 }
 
 /* Main Wrapper */
@@ -91,10 +91,25 @@ body.dark-theme {
 
 .intro-text { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); }
 .arrow-svg-wrapper { position: absolute; top: 90%; left: 50%; transform: translateX(-50%); }
-.hero-main { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; }
+
+/* FIX: Adjusted positioning for the desired layout */
+.hero-main { 
+  position: absolute; 
+  top: 50%; 
+  left: 10%; 
+  transform: translateY(-20%); 
+  text-align: left; 
+}
 .hero-main-title { font-size: 64px; }
 .hero-main-description { font-size: 24px; }
-.hero-second { position: absolute; bottom: 10%; right: 5%; text-align: right; }
+
+.hero-second { 
+  position: absolute; 
+  top: 50%; 
+  right: 10%; 
+  transform: translateY(-50%); 
+  text-align: right; 
+}
 
 /* Theme Toggle */
 .toggle-bar {
@@ -103,7 +118,6 @@ body.dark-theme {
   right: 48px;
   z-index: 12;
   pointer-events: auto;
-  /* FIX: Added flex properties for alignment */
   display: flex;
   align-items: center;
 }
@@ -118,7 +132,20 @@ body.dark-theme {
     color: #f1eee4;
 }
 .toggle-button { cursor: pointer; width: 80px; height: 40px; background-color: #e5a1aa; border: none; border-radius: 20px; position: relative; }
-.toggle-circle { position: absolute; top: 5px; left: 5px; width: 30px; height: 30px; border-radius: 50%; background-color: #f1eee4; }
+.toggle-circle {
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background-color: #f1eee4;
+  transition: left 0.3s ease-in-out;
+}
+
+body.dark-theme .toggle-circle {
+  left: 45px;
+}
 
 /* Sections for Scrolling */
 .section-margin { height: 3000px; width: 100%; }
