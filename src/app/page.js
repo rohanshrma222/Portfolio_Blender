@@ -50,9 +50,9 @@ export default function App() {
         
           // Animate Cube and Text Together
           .to(assets.nodes.Cube.scale, {
-            x: 1,
-            y: 1,
-            z: 1,
+            x: 5,
+            y: 5,
+            z: 5,
             ease: "back.out(2.2)",
             duration: 0.7
           }, "reveal")
