@@ -23,15 +23,15 @@ const Floor = forwardRef((props, ref) => {
         <planeGeometry args={[100, 100]} />
         <meshStandardMaterial color={0xffe6a2} side={THREE.BackSide} />
       </mesh>
-      <mesh ref={circle1} receiveShadow rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.29, 0]} scale={[0, 0, 0]}>
+      <mesh ref={circle1} receiveShadow rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.52, 0]} scale={[0, 0, 0]}>
         <circleGeometry args={[5, 64]} />
         <meshStandardMaterial color={0xe5a1aa} />
       </mesh>
-      <mesh ref={circle2} receiveShadow rotation={[-Math.PI / 2, 0, 0]} position={[2, -0.28, 0]} scale={[0, 0, 0]}>
+      <mesh ref={circle2} receiveShadow rotation={[-Math.PI / 2, 0, 0]} position={[2, -0.51, 0]} scale={[0, 0, 0]}>
         <circleGeometry args={[5, 64]} />
         <meshStandardMaterial color={0x8395cd} />
       </mesh>
-      <mesh ref={circle3} receiveShadow rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.27, 0]} scale={[0, 0, 0]}>
+      <mesh ref={circle3} receiveShadow rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.50, 0]} scale={[0, 0, 0]}>
         <circleGeometry args={[5, 64]} />
         <meshStandardMaterial color={0x7ad0ac} />
       </mesh>

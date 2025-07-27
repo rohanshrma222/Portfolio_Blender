@@ -4,6 +4,7 @@ import React from 'react';
 import Room from './Room';
 import Floor from './Floor';
 import Environment from './Environment';
+import { Kanchenjunga } from 'next/font/google';
 
 export default function World({ device, theme, onAssetsReady, floorCirclesRef, showFullModel }) {
     return (

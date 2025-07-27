@@ -1,17 +1,16 @@
 'use client';
 
 import * as THREE from 'three';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useGLTF, useAnimations, useVideoTexture } from '@react-three/drei';
-import { useFrame } from '@react-three/fiber';
-import gsap from 'gsap';
 
-function Model({ scene, animations, nodes, onAssetsReady, visible }) {
+export default function Room({ onAssetsReady, showOnlyCube }) {
     const group = useRef();
+    const { scene, nodes, animations } = useGLTF('/models/Room.glb');
     const { actions } = useAnimations(animations, group);
     const videoTexture = useVideoTexture('/screen-video.mp4', { muted: true, loop: true, start: true });
-    const lerp = useRef({ current: 0, target: 0, ease: 0.1 });
 
+    // This effect runs once to set up materials, shadows, and pass assets to the parent
     useEffect(() => {
         scene.traverse((child) => {
             if (child.isMesh) {
@@ -20,8 +19,8 @@ function Model({ scene, animations, nodes, onAssetsReady, visible }) {
             }
         });
 
-        if (nodes.monitorscreen) {
-            nodes.monitorscreen.material = new THREE.MeshBasicMaterial({ map: videoTexture });
+        if (nodes.monitor) {
+            nodes.monitor.material = new THREE.MeshBasicMaterial({ map: videoTexture });
         }
 
         if (nodes['Cube.004']) {
@@ -30,7 +29,7 @@ function Model({ scene, animations, nodes, onAssetsReady, visible }) {
                 color: 0x549dd2,
                 ior: 3,
                 transmission: 1,
-                opacity: 0,
+                opacity: 1, // Keep opacity at 1
             });
         }
 
@@ -38,85 +37,36 @@ function Model({ scene, animations, nodes, onAssetsReady, visible }) {
             actions[animations[0].name]?.play();
         }
 
-        const onMouseMove = (e) => {
-            const rotation = ((e.clientX - window.innerWidth / 2) * 2) / window.innerWidth;
-            lerp.current.target = rotation * 0.05;
-        };
-        window.addEventListener("mousemove", onMouseMove);
-
+        // Pass the essential assets to the main page for GSAP animations
         onAssetsReady?.({
             room: group.current,
             nodes,
         });
 
-        return () => window.removeEventListener("mousemove", onMouseMove);
     }, [scene, nodes, actions, animations, onAssetsReady, videoTexture]);
 
+    // This effect handles what part of the model is visible
     useEffect(() => {
-        if (group.current) {
-            gsap.to(group.current.position, {
-                y: visible ? -1.8 : -5,
-                duration: 1,
-                ease: 'power2.out',
+        if (nodes) {
+            Object.values(nodes).forEach(node => {
+                // Ensure it's a mesh we can control
+                if (node.isMesh) {
+                    if (node.name === 'Cube') {
+                        // The cube should ONLY be visible when showOnlyCube is true
+                        node.visible = showOnlyCube;
+                    } else {
+                        // All other parts should ONLY be visible when showOnlyCube is false
+                        node.visible = !showOnlyCube;
+                    }
+                }
             });
-
-            gsap.to(group.current.material ?? {}, {
-                opacity: visible ? 1 : 0,
-                duration: 1,
-                ease: 'power2.out',
-                onUpdate: () => {
-                    // optional live update
-                },
-            });
-
-            group.current.visible = visible;
         }
-    }, [visible]);
+    }, [nodes, showOnlyCube]);
 
-    useFrame((state, delta) => {
-        if (group.current && visible) {
-            lerp.current.current = gsap.utils.interpolate(
-                lerp.current.current,
-                lerp.current.target,
-                lerp.current.ease
-            );
-            group.current.rotation.y = lerp.current.current;
-
-            if (animations.length > 0) {
-                actions[animations[0].name]?.getMixer().update(delta);
-            }
-        }
-    });
 
     return (
-        <group ref={group} dispose={null} position={[0, -5, 0]} visible={false}>
+        <group ref={group} dispose={null}>
             <primitive object={scene} />
         </group>
-    );
-}
-
-export default function Room({ onAssetsReady }) {
-    const { scene, nodes, animations } = useGLTF('/models/Room.glb');
-    const [visible, setVisible] = useState(false);
-
-    useEffect(() => {
-        const handleScroll = () => {
-            const scrollY = window.scrollY || window.pageYOffset;
-            // Trigger model to show after 300px scroll
-            setVisible(scrollY > 300);
-        };
-
-        window.addEventListener('scroll', handleScroll);
-        return () => window.removeEventListener('scroll', handleScroll);
-    }, []);
-
-    return (
-        <Model
-            scene={scene}
-            nodes={nodes}
-            animations={animations}
-            onAssetsReady={onAssetsReady}
-            visible={visible}
-        />
     );
 }
