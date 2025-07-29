@@ -14,6 +14,10 @@ export default function App() {
   const [isIntroPlaying, setIsIntroPlaying] = useState(false);
   const [device, setDevice] = useState('desktop');
   const [showFullModel, setShowFullModel] = useState(false);
+  const [isModelRevealed, setIsModelRevealed] = useState(false);
+
+  // Debug the flags
+  console.log('App state - showFullModel:', showFullModel, 'showOnlyCube:', !showFullModel);
 
   useEffect(() => {
     const handleResize = () => {
@@ -35,126 +39,214 @@ export default function App() {
       setIsIntroPlaying(true);
 
       const playIntro = () => {
+        console.log('Starting intro animation...');
+        console.log('Intro cube exists?', !!assets.nodes.intro);
+
         const tl = gsap.timeline();
 
-        tl.set(assets.nodes.Cube.scale, { x: 0.2, y: 0.2, z: 0.2 });
-        tl.set(assets.nodes.Cube.position, { y: 5 });
-        tl.set(".intro-text", { y: -100 });
+        // Ensure intro cube is visible and properly positioned
+        if (assets.nodes.intro) {
+          console.log('Setting up intro cube...');
+          // Force set the scale and position
+          assets.nodes.intro.scale.x = 1;
+          assets.nodes.intro.scale.y = 1;
+          assets.nodes.intro.scale.z = 1;
+          assets.nodes.intro.position.x = 0;
+          assets.nodes.intro.position.y = 4; // Start above
+          assets.nodes.intro.position.z = 0;
+          assets.nodes.intro.visible = true;
 
+          // Force update the matrix
+          assets.nodes.intro.updateMatrix();
+          assets.nodes.intro.updateMatrixWorld(true);
+
+          console.log('Intro cube setup complete. Scale:', assets.nodes.intro.scale);
+        } else {
+          console.log('No intro cube found in assets.nodes:', Object.keys(assets.nodes));
+        }
+
+        // Set initial states for animation - start with cube visible, then animate
+        tl.set(".intro-text", { y: -100, opacity: 0 });
+
+        // Add a delay so user can see the cube first
+        tl.to({}, { duration: 2 }); // 2 second delay
+
+        // Hide preloader
         tl.to(".preloader", {
           opacity: 0,
           duration: 1.0,
           onComplete: () => {
             document.querySelector(".preloader")?.classList.add("hidden");
           }
-        })
+        });
 
-        .to(assets.nodes.Cube.position, {
-          y: 0,
-          ease: "bounce.out",
-          duration: 1.2
-        }, "drop")
+        // Simple animation - just move cube down if it exists
+        if (assets.nodes.intro) {
+          tl.to(assets.nodes.intro.position, {
+            y: 0,
+            ease: "bounce.out",
+            duration: 1.2
+          }, "drop");
+        }
 
-        .to(assets.nodes.Cube.scale, {
-          x: 2,
-          y: 2,
-          z: 2,
-          ease: "back.out(1.7)",
-          duration: 1.0
-        }, "drop+=0.2")
-
-        .to(".intro-text", {
+        // Show welcome text
+        tl.to(".intro-text", {
           y: 0,
           opacity: 1,
           duration: 1.2,
           ease: "power3.out"
         }, "drop+=0.3")
 
-        .to(".toggle-bar", { opacity: 1, duration: 0.5 }, "drop+=1.3")
-        .to(".arrow-svg-wrapper", { opacity: 1, duration: 0.5 }, "drop+=1.3")
+          // Show UI elements
+          .to(".toggle-bar", { opacity: 1, duration: 0.5 }, "drop+=1.3")
+          .to(".arrow-svg-wrapper", { opacity: 1, duration: 0.5 }, "drop+=1.3")
 
-        .from(".page-wrapper", {
-          opacity: 0,
-          duration: 1.0
-        }, "drop+=1.4")
+          // Show page content
+          .from(".page-wrapper", {
+            opacity: 0,
+            duration: 1.0
+          }, "drop+=1.4")
 
-        .call(() => {
-          window.addEventListener("wheel", playSecondIntro, { once: true });
-          setShowFullModel(true);
-        });
+          // Set up scroll listener for model reveal
+          .call(() => {
+            window.addEventListener("wheel", revealFullModel, { once: true });
+          });
       };
 
-      const playSecondIntro = () => {
+      const revealFullModel = () => {
         const tl = gsap.timeline();
 
-        gsap.set(assets.room.position, { y: -15 });
-
+        // Hide intro elements
         tl.to([".intro-text", ".arrow-svg-wrapper"], {
           opacity: 0,
           duration: 0.5
-        }, "fadeout")
+        }, "fadeout");
 
-        .to(assets.nodes.Cube.rotation, {
-          y: 2 * Math.PI + Math.PI / 4,
-          duration: 1.0,
-          ease: "power2.out"
-        }, "sync")
+        // Rotate and scale down cube - only if cube exists
+        if (assets.nodes.intro) {
+          tl.to(assets.nodes.intro.rotation, {
+            y: 2 * Math.PI + Math.PI / 4,
+            duration: 1.0,
+            ease: "power2.out"
+          }, "sync")
 
-        .to(assets.nodes.Cube.scale, {
-          x: 0,
-          y: 0,
-          z: 0,
-          duration: 0.5
-        }, "sync+=0.5")
+            .to(assets.nodes.intro.scale, {
+              x: 0,
+              y: 0,
+              z: 0,
+              duration: 0.5
+            }, "sync+=0.5");
+        }
 
-        .to(assets.room.position, {
-          x: 0,
-          y: 0,
-          z: 0,
-          duration: 1.0,
-          ease: "power2.out"
-        }, "sync")
+        // Reveal full model and ensure room is visible
+        tl.call(() => {
+          setShowFullModel(true);
+          setIsModelRevealed(true);
 
-        .to(".hero-main-title, .hero-main-description, .hero-second-subheading", {
-          opacity: 1,
-          stagger: 0.1,
-          duration: 0.5
-        }, "reveal")
+          // Ensure room is visible and positioned correctly
+          if (assets.room) {
+            assets.room.visible = true;
+            assets.room.position.set(0, 0, 0);
+            assets.room.updateMatrix();
+            assets.room.updateMatrixWorld(true);
+          }
+        })
 
-        .to(assets.nodes.desk?.scale, {
-          x: 1,
-          y: 1,
-          z: 1,
-          ease: "back.out(2.2)",
-          duration: 0.5
-        }, "reveal+=0.2")
+          // Show hero content immediately
+          .to(".hero-main-title, .hero-main-description, .hero-second-subheading", {
+            opacity: 1,
+            stagger: 0.1,
+            duration: 0.5
+          }, "reveal")
 
-        .to(assets.nodes.chair?.scale, {
-          x: 1,
-          y: 1,
-          z: 1,
-          ease: "back.out(2.2)",
-          duration: 0.5
-        }, ">-0.4")
+          .to(assets.nodes.drawer?.scale, {
+            x: 1,
+            y: 1,
+            z: 1,
+            ease: "back.out(2.2)",
+            duration: 0.5
+          }, "reveal+=0.2")
+          .to(assets.nodes.desk?.scale, {
+            x: 1,
+            y: 1,
+            z: 1,
+            ease: "back.out(2.2)",
+            duration: 0.5
+          }, "reveal+=0.4")
 
-        .to(assets.nodes.minifloor?.scale, {
-          x: 1,
-          y: 1,
-          z: 1,
-          ease: "back.out(2.2)",
-          duration: 0.5
-        }, "reveal+=0.3")        
+         
+          .to(assets.nodes.Bed?.scale, {
+            x: 1,
+            y: 1,
+            z: 1,
+            ease: "back.out(2.2)",
+            duration: 0.5
+          }, "reveal+=0.6")
+          .to(assets.nodes.tableitem?.scale, {
+            x: 1,
+            y: 1,
+            z: 1,
+            ease: "back.out(2.2)",
+            duration: 0.5
+          }, "reveal+=0.8")
+          .to(assets.nodes.monitor?.scale, {
+            x: 1,
+            y: 1,
+            z: 1,
+            ease: "back.out(2.2)",
+            duration: 0.5
+          }, "reveal+=1")
+          .to(assets.nodes.shelve?.scale, {
+            x: 1,
+            y: 1,
+            z: 1,
+            ease: "back.out(2.2)",
+            duration: 0.5
+          }, "reveal+=1.2")
+          .to(assets.nodes.floor.scale, {
+            x: 1,
+            y: 1,
+            z: 1,
+            ease: "back.out(2.2)",
+            duration: 0.5
+          }, "reveal+=1.4")
+          .to(assets.nodes.clock.scale, {
+            x: 1,
+            y: 1,
+            z: 1,
+            ease: "back.out(2.2)",
+            duration: 0.5
+          }, "reveal+=1.4")
 
-        .to(assets.nodes.chair?.rotation, {
-          y: 2.1 * Math.PI,
-          ease: "power2.out",
-          duration: 1
-        }, "<");
+          .to(assets.nodes.chair?.scale, {
+            x: 1,
+            y: 1,
+            z: 1,
+            ease: "back.out(2.2)",
+            duration: 0.5
+          }, ">-0.4")
+
+          // .to(assets.nodes.minifloor?.scale, {
+          //   x: 1,
+          //   y: 1,
+          //   z: 1,
+          //   ease: "back.out(2.2)",
+          //   duration: 0.5
+          // }, "reveal+=0.3")
+
+          .to(assets.nodes.chair?.rotation, {
+            y: 2.1 * Math.PI,
+            ease: "power2.out",
+            duration: 1
+          }, "<");
       };
 
-      playIntro();
+      // Add a small delay to ensure everything is ready
+      setTimeout(playIntro, 100);
     }
   }, [assets, isIntroPlaying, device]);
+
+
 
   return (
     <div className="experience-wrapper">
@@ -164,6 +256,7 @@ export default function App() {
         onAssetsReady={setAssets}
         assets={assets}
         showFullModel={showFullModel}
+        isModelRevealed={isModelRevealed}
       />
 
       <div className="preloader">

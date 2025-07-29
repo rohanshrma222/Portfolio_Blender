@@ -23,8 +23,8 @@ export default function Room({ onAssetsReady, showOnlyCube }) {
             nodes.monitor.material = new THREE.MeshBasicMaterial({ map: videoTexture });
         }
 
-        if (nodes['Cube.004']) {
-            nodes['Cube.004'].material = new THREE.MeshPhysicalMaterial({
+        if (nodes['chut']) {
+            nodes['chut'].material = new THREE.MeshPhysicalMaterial({
                 roughness: 0,
                 color: 0x549dd2,
                 ior: 3,
@@ -32,6 +32,44 @@ export default function Room({ onAssetsReady, showOnlyCube }) {
                 opacity: 1, // Keep opacity at 1
             });
         }
+
+        const animatableNodes = {};
+    if (nodes.desk) {
+      nodes.desk.scale.set(0, 0, 0);
+      animatableNodes.desk = nodes.desk;
+    }
+    if (nodes.chair) {
+      nodes.chair.scale.set(0, 0, 0);
+      animatableNodes.chair = nodes.chair;
+    }
+    if (nodes.drawer) {
+        nodes.drawer.scale.set(0, 0, 0);
+        animatableNodes.drawer = nodes.drawer;
+      }
+      if (nodes.Bed) {
+        nodes.Bed.scale.set(0, 0, 0);
+        animatableNodes.Bed = nodes.Bed;
+      }
+      if (nodes.tableitem) {
+        nodes.tableitem.scale.set(0, 0, 0);
+        animatableNodes.tableitem = nodes.tableitem;
+      }
+      if (nodes.monitor){
+        nodes.monitor.scale.set(0, 0, 0);
+        animatableNodes.monitor = nodes.monitor;
+      }
+      if (nodes.shelve) {
+        nodes.shelve.scale.set(0, 0, 0);
+        animatableNodes.shelve = nodes.shelve;
+      }
+      if (nodes.floor) {
+        nodes.floor.scale.set(0, 0, 0);
+        animatableNodes.floor = nodes.floor;
+      }if (nodes.clock) {
+        nodes.clock.scale.set(0, 0, 0);
+        animatableNodes.clock = nodes.clock;
+      }
+
 
         if (actions && animations.length > 0) {
             actions[animations[0].name]?.play();

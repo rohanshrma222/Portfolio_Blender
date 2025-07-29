@@ -6,12 +6,16 @@ import Floor from './Floor';
 import Environment from './Environment';
 import { Kanchenjunga } from 'next/font/google';
 
-export default function World({ device, theme, onAssetsReady, floorCirclesRef, showFullModel }) {
+export default function World({ device, theme, onAssetsReady, floorCirclesRef, showFullModel, isModelRevealed }) {
     return (
         <>
             {/* Always render the cube (Room) and environment */}
-            <Room onAssetsReady={onAssetsReady} showOnlyCube={!showFullModel} />
-            
+            <Room
+                onAssetsReady={onAssetsReady}
+                showOnlyCube={!showFullModel}
+                isModelRevealed={isModelRevealed}
+            />
+
             {/* Render Floor and full Environment only when allowed */}
             {showFullModel && (
                 <>

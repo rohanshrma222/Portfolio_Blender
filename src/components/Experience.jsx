@@ -7,7 +7,7 @@ import World from './World';
 import Camera from './Camera';
 import Controls from './Controls';
 
-export default function Experience({ theme, device, onAssetsReady, assets, showFullModel }) {
+export default function Experience({ theme, device, onAssetsReady, assets, showFullModel, isModelRevealed }) {
   const floorCirclesRef = useRef();
 
   return (
@@ -31,7 +31,8 @@ export default function Experience({ theme, device, onAssetsReady, assets, showF
           theme={theme}
           onAssetsReady={onAssetsReady}
           floorCirclesRef={floorCirclesRef}
-          showFullModel={showFullModel} // 👈 Pass flag to World
+          showFullModel={showFullModel}
+          isModelRevealed={isModelRevealed}
         />
       </Suspense>
 
@@ -40,6 +41,7 @@ export default function Experience({ theme, device, onAssetsReady, assets, showF
           assets={assets}
           device={device}
           floorCircles={floorCirclesRef}
+          isModelRevealed={isModelRevealed}
         />
       )}
     </Canvas>
