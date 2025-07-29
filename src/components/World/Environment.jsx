@@ -3,7 +3,10 @@
 import React, { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 
-export default function Environment({ theme }) {
+import { useTheme } from '@/context/ThemeContext';
+
+export default function Environment() {
+    const theme = useTheme();
     const directionalLightRef = useRef();
     const ambientLightRef = useRef();
 

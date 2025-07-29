@@ -4,7 +4,7 @@ import * as THREE from 'three';
 import React, { useEffect, useRef } from 'react';
 import { useGLTF, useAnimations, useVideoTexture } from '@react-three/drei';
 
-export default function Room({ onAssetsReady, showOnlyCube, isMuted }) {
+const RoomComponent = function Room({ onAssetsReady, showOnlyCube, isMuted }) {
     const group = useRef();
     const { scene, nodes, animations } = useGLTF('/models/Room.glb');
     const { actions } = useAnimations(animations, group);
@@ -116,4 +116,6 @@ export default function Room({ onAssetsReady, showOnlyCube, isMuted }) {
             <primitive object={scene} />
         </group>
     );
-}
+};
+
+export default React.memo(RoomComponent);

@@ -4,9 +4,8 @@ import React from 'react';
 import Room from './Room';
 import Floor from './Floor';
 import Environment from './Environment';
-import { Kanchenjunga } from 'next/font/google';
 
-export default function World({ device, theme, onAssetsReady, floorCirclesRef, showFullModel, isModelRevealed,isMuted }) {
+export default function World({ device, onAssetsReady, floorCirclesRef, showFullModel, isModelRevealed, isMuted }) {
     return (
         <>
             {/* Always render the cube (Room) and environment */}
@@ -21,7 +20,7 @@ export default function World({ device, theme, onAssetsReady, floorCirclesRef, s
             {showFullModel && (
                 <>
                     <Floor ref={floorCirclesRef} />
-                    <Environment theme={theme} />
+                    <Environment />
                 </>
             )}
         </>

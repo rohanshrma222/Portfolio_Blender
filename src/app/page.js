@@ -1,12 +1,17 @@
 'use client';
 
 import dynamic from 'next/dynamic';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import gsap from 'gsap';
+import Hero from '@/components/Tool/Hero';
+import ToggleBar from '@/components/Tool/ToggleBar';
 
 const Experience = dynamic(() => import('@/components/Experience'), {
   ssr: false,
 });
+
+import { ThemeContext } from '@/context/ThemeContext';
 
 export default function App() {
   const [theme, setTheme] = useState('light');
@@ -15,10 +20,8 @@ export default function App() {
   const [device, setDevice] = useState('desktop');
   const [showFullModel, setShowFullModel] = useState(false);
   const [isModelRevealed, setIsModelRevealed] = useState(false);
-  const [isMuted, setIsMuted] = useState(true);
 
-  // Debug the flags
-  console.log('App state - showFullModel:', showFullModel, 'showOnlyCube:', !showFullModel);
+
 
   useEffect(() => {
     const handleResize = () => {
@@ -29,11 +32,18 @@ export default function App() {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  const handleThemeToggle = () => {
+
+  const handleThemeToggle = useCallback(() => {
     const newTheme = theme === 'light' ? 'dark' : 'light';
     setTheme(newTheme);
     document.body.classList.toggle('dark-theme', newTheme === 'dark');
-  };
+  }, [theme]);
+
+  // Refresh ScrollTrigger and ASScroll after theme change to fix scroll jump
+  useEffect(() => {
+    ScrollTrigger.refresh();
+    if (window.asscroll) window.asscroll.resize(); // or .update(), depending on your setup
+  }, [theme]);
 
   useEffect(() => {
     if (assets && !isIntroPlaying) {
@@ -261,14 +271,15 @@ export default function App() {
 
   return (
     <div className="experience-wrapper">
-      <Experience
-        theme={theme}
-        device={device}
-        onAssetsReady={setAssets}
-        assets={assets}
-        showFullModel={showFullModel}
-        isModelRevealed={isModelRevealed}
-      />
+      <ThemeContext.Provider value={theme}>
+        <Experience
+          device={device}
+          onAssetsReady={setAssets}
+          assets={assets}
+          showFullModel={showFullModel}
+          isModelRevealed={isModelRevealed}
+        />
+      </ThemeContext.Provider>
 
       <div className="preloader">
         <div className="preloader-wrapper">
@@ -282,7 +293,7 @@ export default function App() {
 
       <div className="page" asscroll-container="true">
         <div className="page-wrapper" asscroll="true">
-          <section className="hero">
+          {/* <section className="hero">
             <div className="hero-wrapper">
               <div className="intro-text" style={{ opacity: 0 }}>Welcome to my portfolio!</div>
               <div className="arrow-svg-wrapper" style={{ opacity: 0 }}>
@@ -305,14 +316,15 @@ export default function App() {
           <div className="second-move section-margin"></div>
           <section className="second-section section right"></section>
           <div className="third-move section-margin"></div>
-          <section className="third-section section left"></section>
+          <section className="third-section section left"></section> */}
+          <Hero />
         </div>
       </div>
 
-      <div className="toggle-bar" style={{ opacity: 0 }}>
-        <div className="sun-wrapper">
-          {/* [SVG icons truncated for brevity] */}
-        </div>
+      {/* <div className="toggle-bar" style={{ opacity: 0 }}>
+          <div className="sun-wrapper">
+            {/* [SVG icons truncated for brevity] */}
+      {/* </div>
         <button className="toggle-button" onClick={handleThemeToggle}>
           <div className="toggle-circle"></div>
         </button>
@@ -332,8 +344,8 @@ export default function App() {
             {isMuted ? '🔇' : '🔊'}
           </button>
           {/* [SVG icons truncated for brevity] */}
-        </div>
-      </div>
+      {/* </div> */}
+      <ToggleBar assets={assets} theme={theme} onThemeToggle={handleThemeToggle} />
     </div>
   );
 }

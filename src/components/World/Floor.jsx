@@ -4,7 +4,7 @@ import * as THREE from 'three';
 import React, { forwardRef, useImperativeHandle, useRef } from 'react';
 
 // We use forwardRef to pass refs up to the parent component
-const Floor = forwardRef((props, ref) => {
+const FloorComponent = forwardRef((props, ref) => {
   const circle1 = useRef();
   const circle2 = useRef();
   const circle3 = useRef();
@@ -39,5 +39,5 @@ const Floor = forwardRef((props, ref) => {
   );
 });
 
-Floor.displayName = 'Floor';
-export default Floor;
+FloorComponent.displayName = 'Floor';
+export default React.memo(FloorComponent);
