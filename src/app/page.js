@@ -15,6 +15,7 @@ export default function App() {
   const [device, setDevice] = useState('desktop');
   const [showFullModel, setShowFullModel] = useState(false);
   const [isModelRevealed, setIsModelRevealed] = useState(false);
+  const [isMuted, setIsMuted] = useState(true);
 
   // Debug the flags
   console.log('App state - showFullModel:', showFullModel, 'showOnlyCube:', !showFullModel);
@@ -43,28 +44,6 @@ export default function App() {
         console.log('Intro cube exists?', !!assets.nodes.intro);
 
         const tl = gsap.timeline();
-
-        // Ensure intro cube is visible and properly positioned
-        if (assets.nodes.intro) {
-          console.log('Setting up intro cube...');
-          // Force set the scale and position
-          assets.nodes.intro.scale.x = 1;
-          assets.nodes.intro.scale.y = 1;
-          assets.nodes.intro.scale.z = 1;
-          assets.nodes.intro.position.x = 0;
-          assets.nodes.intro.position.y = 4; // Start above
-          assets.nodes.intro.position.z = 0;
-          assets.nodes.intro.visible = true;
-
-          // Force update the matrix
-          assets.nodes.intro.updateMatrix();
-          assets.nodes.intro.updateMatrixWorld(true);
-
-          console.log('Intro cube setup complete. Scale:', assets.nodes.intro.scale);
-        } else {
-          console.log('No intro cube found in assets.nodes:', Object.keys(assets.nodes));
-        }
-
         // Set initial states for animation - start with cube visible, then animate
         tl.set(".intro-text", { y: -100, opacity: 0 });
 
@@ -159,64 +138,96 @@ export default function App() {
             duration: 0.5
           }, "reveal")
 
+          .to(assets.nodes.chut.scale, {
+            x: 1.5,
+            y: 1.5,
+            z: 1.5,
+            ease: "back.out(2.2)",
+            duration: 0.5
+          })
+
+          // Spin
+          .to(assets.nodes.chut.rotation, {
+            y: "+=" + Math.PI * 2, // full 360-degree spin
+            ease: "power2.inOut",
+            duration: 0.8
+          })
+
+          // Shrink to zero
+          .to(assets.nodes.chut.scale, {
+            x: 0,
+            y: 0,
+            z: 0,
+            ease: "back.in(2)",
+            duration: 0.4
+          },)
+          .to(assets.nodes.Body?.scale, {
+            x: 1,
+            y: 1,
+            z: 1,
+            ease: "back.out(2.2)",
+            duration: 0.5
+          }, "reveal+=1.7")
+
           .to(assets.nodes.drawer?.scale, {
             x: 1,
             y: 1,
             z: 1,
             ease: "back.out(2.2)",
             duration: 0.5
-          }, "reveal+=0.2")
+          }, "reveal+=1.7")
           .to(assets.nodes.desk?.scale, {
             x: 1,
             y: 1,
             z: 1,
             ease: "back.out(2.2)",
             duration: 0.5
-          }, "reveal+=0.4")
+          }, "reveal+=1.9")
 
-         
+
           .to(assets.nodes.Bed?.scale, {
             x: 1,
             y: 1,
             z: 1,
             ease: "back.out(2.2)",
             duration: 0.5
-          }, "reveal+=0.6")
+          }, "reveal+=2.1")
           .to(assets.nodes.tableitem?.scale, {
             x: 1,
             y: 1,
             z: 1,
             ease: "back.out(2.2)",
             duration: 0.5
-          }, "reveal+=0.8")
+          }, "reveal+=2.3")
           .to(assets.nodes.monitor?.scale, {
             x: 1,
             y: 1,
             z: 1,
             ease: "back.out(2.2)",
             duration: 0.5
-          }, "reveal+=1")
+          }, "reveal+=2.5")
           .to(assets.nodes.shelve?.scale, {
             x: 1,
             y: 1,
             z: 1,
             ease: "back.out(2.2)",
             duration: 0.5
-          }, "reveal+=1.2")
+          }, "reveal+=2.7")
           .to(assets.nodes.floor.scale, {
             x: 1,
             y: 1,
             z: 1,
             ease: "back.out(2.2)",
             duration: 0.5
-          }, "reveal+=1.4")
+          }, "reveal+=2.9")
           .to(assets.nodes.clock.scale, {
             x: 1,
             y: 1,
             z: 1,
             ease: "back.out(2.2)",
             duration: 0.5
-          }, "reveal+=1.4")
+          }, "reveal+=3.1")
+
 
           .to(assets.nodes.chair?.scale, {
             x: 1,
@@ -306,6 +317,20 @@ export default function App() {
           <div className="toggle-circle"></div>
         </button>
         <div className="moon-wrapper">
+          <button
+            className="sound-button"
+            onClick={() => {
+              if (isMuted) {
+                assets?.setMutedAndPlay?.();
+                setIsMuted(false);
+              } else {
+                assets?.setMuted?.();
+                setIsMuted(true);
+              }
+            }}
+            style={{ marginLeft: '10px', background: 'transparent', border: 'none', cursor: 'pointer', color: 'white' }}>
+            {isMuted ? '🔇' : '🔊'}
+          </button>
           {/* [SVG icons truncated for brevity] */}
         </div>
       </div>

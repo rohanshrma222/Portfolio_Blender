@@ -11,17 +11,24 @@ export default function Environment({ theme }) {
         if (directionalLightRef.current && ambientLightRef.current) {
             const sunLight = directionalLightRef.current;
             const ambient = ambientLightRef.current;
-            
-            // FIX: Using a much lighter blue for the dark theme color
-            const darkThemeColors = { r: 0.35, g: 0.45, b: 0.85 };
-            const lightThemeColors = { r: 1, g: 1, b: 1 };
+
+            // Colors based on second file's switchTheme
+            const darkThemeColors = {
+                r: 0.4,
+                g: 0.45,
+                b: 0.6,
+            };
+            const lightThemeColors = {
+                r: 1,
+                g: 1,
+                b: 1,
+            };
 
             if (theme === 'dark') {
                 gsap.to(sunLight.color, { ...darkThemeColors, duration: 1 });
                 gsap.to(ambient.color, { ...darkThemeColors, duration: 1 });
-                // FIX: Increased intensity further for a brighter dark mode.
-                gsap.to(sunLight, { intensity: 1.5, duration: 1 });
-                gsap.to(ambient, { intensity: 1.5, duration: 1 });
+                gsap.to(sunLight, { intensity: 1.2, duration: 1 });
+                gsap.to(ambient, { intensity: 0.8, duration: 1 });
             } else {
                 gsap.to(sunLight.color, { ...lightThemeColors, duration: 1 });
                 gsap.to(ambient.color, { ...lightThemeColors, duration: 1 });

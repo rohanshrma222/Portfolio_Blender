@@ -25,15 +25,15 @@ const Floor = forwardRef((props, ref) => {
       </mesh>
       <mesh ref={circle1} receiveShadow rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.52, 0]} scale={[0, 0, 0]}>
         <circleGeometry args={[5, 64]} />
-        <meshStandardMaterial color={0xe5a1aa} />
+        <meshStandardMaterial color={0xBE60DB} />
       </mesh>
       <mesh ref={circle2} receiveShadow rotation={[-Math.PI / 2, 0, 0]} position={[2, -0.51, 0]} scale={[0, 0, 0]}>
         <circleGeometry args={[5, 64]} />
-        <meshStandardMaterial color={0x8395cd} />
+        <meshStandardMaterial color={0x275EF5} />
       </mesh>
       <mesh ref={circle3} receiveShadow rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.50, 0]} scale={[0, 0, 0]}>
         <circleGeometry args={[5, 64]} />
-        <meshStandardMaterial color={0x7ad0ac} />
+        <meshStandardMaterial color={0xE6B3A3} />
       </mesh>
     </>
   );

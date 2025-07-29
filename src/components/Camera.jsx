@@ -1,14 +1,31 @@
 'use client';
 
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { PerspectiveCamera, OrthographicCamera, OrbitControls } from '@react-three/drei';
+import { useThree } from '@react-three/fiber';
 
 export default function Camera() {
+  const cameraRef = useRef();
+  const { scene } = useThree();
+
+  useEffect(() => {
+    if (cameraRef.current) {
+      // Make the camera look slightly upwards
+      cameraRef.current.lookAt(0, 5, 0); // (x, y, z) → y=2 moves the view upwards
+    }
+  }, []);
+
   return (
     <>
       <PerspectiveCamera makeDefault={false} fov={35} near={0.1} far={1000} position={[29, 14, 10]} />
-      {/* FIX: Changed rotation on the X-axis from -Math.PI / 6 to -Math.PI / 8 to tilt the camera up slightly. */}
-      <OrthographicCamera makeDefault={true} position={[1, 5.65, 10]} rotation={[-Math.PI / 8, 1, 0]} zoom={700} near={-50} far={50} />
+      <OrthographicCamera
+        ref={cameraRef}
+        makeDefault={true}
+        position={[1, 5.65, 10]}
+        zoom={780}
+        near={-50}
+        far={50}
+      />
       <OrbitControls enableDamping={true} enableZoom={false} />
     </>
   );

@@ -7,7 +7,7 @@ import World from './World';
 import Camera from './Camera';
 import Controls from './Controls';
 
-export default function Experience({ theme, device, onAssetsReady, assets, showFullModel, isModelRevealed }) {
+export default function Experience({ theme, device, onAssetsReady, assets, showFullModel, isModelRevealed, isMuted }) { 
   const floorCirclesRef = useRef();
 
   return (
@@ -33,6 +33,7 @@ export default function Experience({ theme, device, onAssetsReady, assets, showF
           floorCirclesRef={floorCirclesRef}
           showFullModel={showFullModel}
           isModelRevealed={isModelRevealed}
+          isMuted={isMuted}       // ✅ Pass down to World → Room
         />
       </Suspense>
 
@@ -42,6 +43,7 @@ export default function Experience({ theme, device, onAssetsReady, assets, showF
           device={device}
           floorCircles={floorCirclesRef}
           isModelRevealed={isModelRevealed}
+          isMuted={isMuted}       // ✅ Pass down if Controls needs sound state
         />
       )}
     </Canvas>
