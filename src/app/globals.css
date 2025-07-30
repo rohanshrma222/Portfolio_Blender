@@ -44,7 +44,7 @@ body.dark-theme {
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: #fcfcfa;
+  background-color: #6b22ae;
   z-index: 100;
   display: flex;
   justify-content: center;
@@ -53,14 +53,33 @@ body.dark-theme {
 .preloader.hidden {
   display: none;
 }
-.loading { display: flex; }
-.circle { width: 20px; height: 20px; border-radius: 50%; margin: 0 10px; background-color: #e5a1aa; animation: load 1s infinite; }
-.circle:nth-child(2) { animation-delay: 0.2s; }
-.circle:nth-child(3) { animation-delay: 0.4s; }
+.loading {
+  display: flex;
+}
+.circle {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  margin: 0 10px;
+  background-color: #bb86fc;
+  animation: load 1s infinite;
+}
+.circle:nth-child(2) {
+  animation-delay: 0.2s;
+}
+.circle:nth-child(3) {
+  animation-delay: 0.4s;
+}
 @keyframes load {
-  0% { transform: scale(1); }
-  50% { transform: scale(1.5); }
-  100% { transform: scale(1); }
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.5);
+  }
+  100% {
+    transform: scale(1);
+  }
 }
 
 /* Scrollable Page - Middle Layer */
@@ -89,26 +108,46 @@ body.dark-theme {
   color: #f1eee4;
 }
 
-.intro-text { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); }
-.arrow-svg-wrapper { position: absolute; top: 90%; left: 50%; transform: translateX(-50%); }
+.intro-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 20px;
+  font-weight: 700;
+  color: #e0c8ff;
+  text-align: center;
+  white-space: nowrap;
+  text-shadow: 0 0 10px rgba(208, 161, 255, 0.6);
+}
+.arrow-svg-wrapper {
+  position: absolute;
+  top: 90%;
+  left: 50%;
+  transform: translateX(-50%);
+}
 
 /* FIX: Adjusted positioning for the desired layout */
-.hero-main { 
-  position: absolute; 
-  top: 50%; 
-  left: 5%; 
-  transform: translateY(-20%); 
-  text-align: left; 
+.hero-main {
+  position: absolute;
+  top: 50%;
+  left: 5%;
+  transform: translateY(-20%);
+  text-align: left;
 }
-.hero-main-title { font-size: 74px; }
-.hero-main-description { font-size: 24px; }
+.hero-main-title {
+  font-size: 74px;
+}
+.hero-main-description {
+  font-size: 24px;
+}
 
-.hero-second { 
-  position: absolute; 
-  top: 50%; 
-  right: 10%; 
-  transform: translateY(-50%); 
-  text-align: right; 
+.hero-second {
+  position: absolute;
+  top: 50%;
+  right: 10%;
+  transform: translateY(-50%);
+  text-align: right;
 }
 
 /* Theme Toggle */
@@ -121,17 +160,27 @@ body.dark-theme {
   display: flex;
   align-items: center;
 }
-.sun-wrapper, .moon-wrapper {
+.sun-wrapper,
+.moon-wrapper {
   display: flex;
   align-items: center;
   justify-content: center;
   color: #222222;
   margin: 0 10px;
 }
-.dark-theme .sun-wrapper, .dark-theme .moon-wrapper {
-    color: #f1eee4;
+.dark-theme .sun-wrapper,
+.dark-theme .moon-wrapper {
+  color: #f1eee4;
 }
-.toggle-button { cursor: pointer; width: 80px; height: 40px; background-color: #e5a1aa; border: none; border-radius: 20px; position: relative; }
+.toggle-button {
+  cursor: pointer;
+  width: 80px;
+  height: 40px;
+  background-color: #a860f1;
+  border: none;
+  border-radius: 20px;
+  position: relative;
+}
 .toggle-circle {
   position: absolute;
   top: 5px;
@@ -146,7 +195,16 @@ body.dark-theme {
 body.dark-theme .toggle-circle {
   left: 45px;
 }
+body.dark-theme .toggle-button {
+  background-color: #4e54c8;
+}
 
 /* Sections for Scrolling */
-.section-margin { height: 3000px; width: 100%; }
-.section { height: 100vh; width: 100%; }
+.section-margin {
+  height: 3000px;
+  width: 100%;
+}
+.section {
+  height: 100vh;
+  width: 100%;
+}
