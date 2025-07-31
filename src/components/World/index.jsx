@@ -11,6 +11,7 @@ export default function World({ device, onAssetsReady, floorCirclesRef, showFull
             {/* Always render the cube (Room) and environment */}
             <Room
                 onAssetsReady={onAssetsReady}
+                device={device}
                 showOnlyCube={!showFullModel}
                 isModelRevealed={isModelRevealed}
                 isMuted={isMuted} 

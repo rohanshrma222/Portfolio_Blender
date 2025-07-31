@@ -3,17 +3,31 @@ import React, { useState, useEffect } from 'react';
 const Hero = React.memo(({ revealHeroContent }) => {
     return (
         <>
-            <style>{`
-                .hero-main, .hero-second {
-                    opacity: 0;
-                    transform: translateY(40px);
-                    transition: opacity 0.8s cubic-bezier(.4,0,.2,1), transform 0.8s cubic-bezier(.4,0,.2,1);
-                }
-                .hero-main.hero-animate, .hero-second.hero-animate {
-                    opacity: 1;
-                    transform: translateY(0);
-                }
-            `}</style>
+    <style>{`
+            .hero-main, .hero-second {
+                opacity: 0;
+                transform: translateY(40px);
+                transition: opacity 0.8s cubic-bezier(.4,0,.2,1), transform 0.8s cubic-bezier(.4,0,.2,1);
+            }
+            .hero-main.hero-animate, .hero-second.hero-animate {
+                opacity: 1;
+                transform: translateY(0);
+            }
+            
+            /* Add these new styles */
+            .section {
+                min-height: 100vh;
+                padding: 80px 40px;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+            }
+            
+            .section-text, .section-heading {
+                opacity: 1 !important;
+                visibility: visible !important;
+            }
+           `}</style>
             <section className="hero">
                 <div className="hero-wrapper">
                     <div className="intro-text">Welcome to my portfolio!</div>

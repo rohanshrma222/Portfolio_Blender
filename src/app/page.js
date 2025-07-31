@@ -40,20 +40,12 @@ export default function App() {
     document.body.classList.toggle('dark-theme', newTheme === 'dark');
   }, [theme]);
 
-  // Refresh ScrollTrigger and ASScroll after theme change to fix scroll jump
-  useEffect(() => {
-    ScrollTrigger.refresh();
-    if (window.asscroll) window.asscroll.resize(); // or .update(), depending on your setup
-  }, [theme]);
 
   useEffect(() => {
     if (assets && !isIntroPlaying) {
       setIsIntroPlaying(true);
 
       const playIntro = () => {
-        console.log('Starting intro animation...');
-        console.log('Intro cube exists?', !!assets.nodes.intro);
-
         const tl = gsap.timeline();
         // Set initial states for animation - start with cube visible, then animate
         tl.set(".intro-text", { y: -100, opacity: 0 });
@@ -69,15 +61,6 @@ export default function App() {
             document.querySelector(".preloader")?.classList.add("hidden");
           }
         });
-
-        // Simple animation - just move cube down if it exists
-        if (assets.nodes.intro) {
-          tl.to(assets.nodes.intro.position, {
-            y: 0,
-            ease: "bounce.out",
-            duration: 1.2
-          }, "drop");
-        }
 
         // Show welcome text
         tl.to(".intro-text", {
@@ -111,23 +94,7 @@ export default function App() {
           opacity: 0,
           duration: 0.5
         }, "fadeout");
-
-        // Rotate and scale down cube - only if cube exists
-        if (assets.nodes.intro) {
-          tl.to(assets.nodes.intro.rotation, {
-            y: 2 * Math.PI + Math.PI / 4,
-            duration: 1.0,
-            ease: "power2.out"
-          }, "sync")
-
-            .to(assets.nodes.intro.scale, {
-              x: 0,
-              y: 0,
-              z: 0,
-              duration: 0.5
-            }, "sync+=0.5");
-        }
-
+        
         // Reveal full model and ensure room is visible
         tl.call(() => {
           setShowFullModel(true);

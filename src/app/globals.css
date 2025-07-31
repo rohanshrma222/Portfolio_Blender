@@ -10,7 +10,8 @@ body {
   font-weight: 500;
   font-size: 16px;
   line-height: 1.7;
-  overflow: hidden;
+  overflow-x: hidden;
+  overflow-y: auto;
   background-color: #6b22ae;
 }
 
@@ -152,9 +153,12 @@ body.dark-theme .toggle-circle {
   left: 45px;
 }
 
-/* Sections for Scrolling */
-.section-margin { height: 3000px; width: 100%; }
-.section { height: 100vh; width: 100%; }
+
+.section-margin { height: 1000px; width: 100%; }
+.section { height: 100vh; width: 100%; } 
+
+
+
 
 /* Always show section content text */
 .section,
@@ -169,3 +173,29 @@ body.dark-theme .toggle-circle {
 }
 
 
+/* Force section visibility */
+.first-section {
+  background: rgba(255, 230, 230, 0.95) !important;
+}
+
+.second-section {  
+  background: rgba(230, 243, 255, 0.95) !important;
+}
+
+.third-section {
+  background: rgba(230, 255, 230, 0.95) !important;
+}
+
+.section-text {
+  color: #333 !important;
+  font-size: 16px !important; 
+  line-height: 1.6 !important;
+  margin: 15px 0 !important;
+}
+
+.section-heading {
+  color: #111 !important;
+  font-size: 24px !important;
+  font-weight: bold !important;
+  margin: 25px 0 10px 0 !important;
+}
