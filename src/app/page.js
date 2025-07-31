@@ -17,6 +17,7 @@ export default function App() {
   const [theme, setTheme] = useState('light');
   const [assets, setAssets] = useState(null);
   const [isIntroPlaying, setIsIntroPlaying] = useState(false);
+  const [revealHeroContent, setRevealHeroContent] = useState(false);
   const [device, setDevice] = useState('desktop');
   const [showFullModel, setShowFullModel] = useState(false);
   const [isModelRevealed, setIsModelRevealed] = useState(false);
@@ -142,6 +143,9 @@ export default function App() {
         })
 
           // Show hero content immediately
+          .call(() => {
+            setRevealHeroContent(true);
+          }, null, "reveal")
           .to(".hero-main-title, .hero-main-description, .hero-second-subheading", {
             opacity: 1,
             stagger: 0.1,
@@ -267,8 +271,6 @@ export default function App() {
     }
   }, [assets, isIntroPlaying, device]);
 
-
-
   return (
     <div className="experience-wrapper">
       <ThemeContext.Provider value={theme}>
@@ -317,7 +319,7 @@ export default function App() {
           <section className="second-section section right"></section>
           <div className="third-move section-margin"></div>
           <section className="third-section section left"></section> */}
-          <Hero />
+          <Hero revealHeroContent={revealHeroContent} />
         </div>
       </div>
 

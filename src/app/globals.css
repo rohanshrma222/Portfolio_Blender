@@ -81,9 +81,14 @@ body.dark-theme {
   height: 100%;
   top: 0;
   left: 0;
-  color: #222222;
   z-index: 11;
+}
+.hero-main, .hero-second, .intro-text, .arrow-svg-wrapper {
+  color: #222222;
   pointer-events: none;
+}
+.dark-theme .hero-main, .dark-theme .hero-second, .dark-theme .intro-text, .dark-theme .arrow-svg-wrapper {
+  color: #f1eee4;
 }
 .dark-theme .hero-wrapper {
   color: #f1eee4;
@@ -131,7 +136,7 @@ body.dark-theme {
 .dark-theme .sun-wrapper, .dark-theme .moon-wrapper {
     color: #f1eee4;
 }
-.toggle-button { cursor: pointer; width: 80px; height: 40px; background-color: #e5a1aa; border: none; border-radius: 20px; position: relative; }
+.toggle-button { cursor: pointer; width: 80px; height: 40px; background-color: #b357d7; border: none; border-radius: 20px; position: relative; }
 .toggle-circle {
   position: absolute;
   top: 5px;
@@ -150,3 +155,17 @@ body.dark-theme .toggle-circle {
 /* Sections for Scrolling */
 .section-margin { height: 3000px; width: 100%; }
 .section { height: 100vh; width: 100%; }
+
+/* Always show section content text */
+.section,
+.section-title,
+.section-title-text,
+.section-text,
+.section-heading,
+.section-number,
+.section-detail-wrapper,
+.section-intro-wrapper {
+  color: #222222 !important;
+}
+
+
