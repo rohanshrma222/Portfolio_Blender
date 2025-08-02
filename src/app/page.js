@@ -6,6 +6,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import gsap from 'gsap';
 import Hero from '@/components/Tool/Hero';
 import ToggleBar from '@/components/Tool/ToggleBar';
+import PortfolioSections from '@/components/PortfolioSections';
 
 const Experience = dynamic(() => import('@/components/Experience'), {
   ssr: false,
@@ -94,7 +95,7 @@ export default function App() {
           opacity: 0,
           duration: 0.5
         }, "fadeout");
-        
+
         // Reveal full model and ensure room is visible
         tl.call(() => {
           setShowFullModel(true);
@@ -120,9 +121,9 @@ export default function App() {
           }, "reveal")
 
           .to(assets.nodes.chut.scale, {
-            x: 1.5,
-            y: 1.5,
-            z: 1.5,
+            x: 2,
+            y: 2,
+            z: 2,
             ease: "back.out(2.2)",
             duration: 0.5
           })
@@ -156,14 +157,14 @@ export default function App() {
             z: 1,
             ease: "back.out(2.2)",
             duration: 0.5
-          }, "reveal+=1.7")
+          }, "reveal+=2.4")
           .to(assets.nodes.desk?.scale, {
             x: 1,
             y: 1,
             z: 1,
             ease: "back.out(2.2)",
             duration: 0.5
-          }, "reveal+=1.9")
+          }, "reveal+=2.0")
 
 
           .to(assets.nodes.Bed?.scale, {
@@ -172,42 +173,42 @@ export default function App() {
             z: 1,
             ease: "back.out(2.2)",
             duration: 0.5
-          }, "reveal+=2.1")
+          }, "reveal+=2.6")
           .to(assets.nodes.tableitem?.scale, {
             x: 1,
             y: 1,
             z: 1,
             ease: "back.out(2.2)",
             duration: 0.5
-          }, "reveal+=2.3")
+          }, "reveal+=2.4")
           .to(assets.nodes.monitor?.scale, {
             x: 1,
             y: 1,
             z: 1,
             ease: "back.out(2.2)",
             duration: 0.5
-          }, "reveal+=2.5")
+          }, "reveal+=2.6")
           .to(assets.nodes.shelve?.scale, {
             x: 1,
             y: 1,
             z: 1,
             ease: "back.out(2.2)",
             duration: 0.5
-          }, "reveal+=2.7")
+          }, "reveal+=2.8")
           .to(assets.nodes.floor.scale, {
             x: 1,
             y: 1,
             z: 1,
             ease: "back.out(2.2)",
             duration: 0.5
-          }, "reveal+=2.9")
+          }, "reveal+=3.0")
           .to(assets.nodes.clock.scale, {
             x: 1,
             y: 1,
             z: 1,
             ease: "back.out(2.2)",
             duration: 0.5
-          }, "reveal+=3.1")
+          }, "reveal+=3.2")
 
 
           .to(assets.nodes.chair?.scale, {
@@ -287,6 +288,7 @@ export default function App() {
           <div className="third-move section-margin"></div>
           <section className="third-section section left"></section> */}
           <Hero revealHeroContent={revealHeroContent} />
+          <PortfolioSections />
         </div>
       </div>
 

@@ -5,6 +5,20 @@
   box-sizing: border-box;
 }
 
+/* ADDED: CSS Custom Properties for Colors */
+:root {
+  --color-pink: #e5a1aa;
+  --color-blue: #4a90e2;
+  --color-green: #7ed321;
+  --color-text: #222222;
+  --color-background: #fcfcfa;
+}
+
+.dark-theme {
+  --color-text: #f1eee4;
+  --color-background: #28309c;
+}
+
 body {
   font-family: "Lufga", sans-serif;
   font-weight: 500;
@@ -71,8 +85,9 @@ body.dark-theme {
   left: 0;
   width: 100%;
   height: 100%;
-  overflow: hidden;
+  overflow-y: auto;
   z-index: 10;
+  background: transparent;
 }
 
 /* Hero Content & UI - Top Layer */
@@ -153,27 +168,25 @@ body.dark-theme .toggle-circle {
   left: 45px;
 }
 
-
-.section-margin { height: 1000px; width: 100%; }
-.section { height: 100vh; width: 100%; } 
-
-
-
-
-/* Always show section content text */
-.section,
-.section-title,
-.section-title-text,
-.section-text,
-.section-heading,
-.section-number,
-.section-detail-wrapper,
-.section-intro-wrapper {
-  color: #222222 !important;
+/* FIXED: Section spacing - changed from 3000px to 100vh */
+.section-margin { 
+  height: 3000px; 
+  width: 100%; 
 }
 
+/* FIXED: Better section layout and visibility */
+.section { 
+  min-height: 100vh; 
+  width: 100%; 
+  z-index: 12;
+  position: relative;
+  padding: 80px 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
 
-/* Force section visibility */
+/* FIXED: Force section visibility with better backgrounds */
 .first-section {
   background: rgba(255, 230, 230, 0.95) !important;
 }
@@ -186,6 +199,7 @@ body.dark-theme .toggle-circle {
   background: rgba(230, 255, 230, 0.95) !important;
 }
 
+/* FIXED: Ensure text is always visible */
 .section-text {
   color: #333 !important;
   font-size: 16px !important; 
@@ -198,4 +212,117 @@ body.dark-theme .toggle-circle {
   font-size: 24px !important;
   font-weight: bold !important;
   margin: 25px 0 10px 0 !important;
+}
+
+/* ===== PORTFOLIO SECTION STYLES ===== */
+
+/* Section Intro Wrapper */
+.section-intro-wrapper {
+  position: relative;
+  padding: 5% 5%; /* CHANGED: reduced from 20% to 5% */
+  border-bottom: 2px solid var(--color-pink);
+  margin-bottom: 40px;
+}
+
+.section-intro-wrapper.blue-text {
+  border-bottom: 2px solid var(--color-blue);
+}
+.section-intro-wrapper.green-text {
+  border-bottom: 2px solid var(--color-green);
+}
+
+/* Section Title */
+.section-title {
+  position: relative;
+  color: var(--color-pink);
+}
+
+.section-title.blue-text {
+  color: var(--color-blue);
+}
+
+.section-title.green-text {
+  color: var(--color-green);
+}
+
+.section-title-text {
+  display: block;
+  font-size: 40px;
+  font-weight: 500;
+  transform-origin: left;
+  transform: skewY(25deg);
+  text-transform: uppercase;
+  z-index: 5;
+  color: inherit;
+}
+
+.section-title-decoration {
+  position: absolute;
+  display: block;
+  width: 100%;
+  max-width: 278px;
+  height: 60px;
+  border: 1px solid currentColor;
+  transform-origin: left;
+}
+
+.styleOne {
+  top: 0;
+  transform: skewY(-25deg);
+}
+
+.styleTwo {
+  top: 80px;
+  transform: skewY(-25deg);
+}
+
+.styleThree {
+  top: 80px;
+  transform: skewY(25deg);
+  background-color: currentColor;
+}
+
+/* Section Number */
+.section-number {
+  position: absolute;
+  bottom: 15px;
+  right: 0;
+  font-size: 24px;
+  color: inherit;
+}
+
+/* Section Details */
+.section-detail-wrapper {
+  position: relative;
+  padding: 5% 5%; /* CHANGED: reduced from 20% to 5% */
+}
+
+/* Progress Bar */
+.progress-wrapper {
+  position: absolute;
+  top: 0;
+  width: 12px;
+}
+
+.progress-bar-wrapper-left {
+  left: 0;
+}
+
+.progress-bar-wrapper-right {
+  right: 0;
+}
+
+.progress-bar {
+  height: 100vh;
+  width: 100%;
+  background-color: var(--color-pink);
+  transform-origin: top center;
+}
+
+.progress-bar.blue-background {
+  background-color: var(--color-blue);
+}
+
+.progress-bar.green-background {
+  background-color: var(--color-green);
 }
