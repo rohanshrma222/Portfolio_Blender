@@ -1,4 +1,6 @@
-@import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 /* Basic Reset & Font */
 * {
@@ -21,18 +23,16 @@
   --color-background: #28309c;
 }
 
-body {
-  font-family: "Lufga", sans-serif;
-  font-weight: 500;
-  font-size: 16px;
-  line-height: 1.7;
-  overflow-x: hidden;
-  overflow-y: auto;
-  background-color: #6b22ae;
-}
-
-body.dark-theme {
-  background-color: #28309c;
+@layer base {
+  body {
+    @apply bg-[#6b22ae] dark:bg-[#28309c] text-[#222222] dark:text-[#f1eee4];
+    font-family: "Lufga", sans-serif;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 1.7;
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
 }
 
 /* Main Wrapper */
@@ -119,15 +119,7 @@ body.dark-theme {
   background: transparent;
 }
 
-/* Hero Content & UI - Top Layer */
-.hero-wrapper {
-  position: fixed;
-  width: 100%;
-  height: 100%;
-  top: 0;
-  left: 0;
-  z-index: 11;
-}
+
 
 .hero-main,
 .hero-second,
@@ -148,30 +140,6 @@ body.dark-theme {
   color: #f1eee4;
 }
 
-.intro-text {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-}
-
-.arrow-svg-wrapper {
-  position: absolute;
-  top: 90%;
-  left: 50%;
-  transform: translateX(-50%);
-}
-
-/* FIX: Adjusted positioning for the desired layout */
-.hero-main, .hero-second {
-  opacity: 0;
-  transform: translateY(40px);
-  transition: opacity 0.8s cubic-bezier(.4,0,.2,1), transform 0.8s cubic-bezier(.4,0,.2,1);
-}
-.hero-main.hero-animate, .hero-second.hero-animate {
-  opacity: 1;
-  transform: translateY(0);
-}
 
 /* Add these new styles */
 .section {
@@ -182,28 +150,18 @@ body.dark-theme {
   justify-content: center;
 }
 
-.section-text, .section-heading {
+.section-text,
+.section-heading {
   opacity: 1 !important;
   visibility: visible !important;
 }
 
-/* Theme Toggle */
-.toggle-bar {
-  position: fixed;
-  top: 48px;
-  right: 48px;
-  z-index: 12;
-  pointer-events: auto;
-  display: flex;
-  align-items: center;
-}
 
 .sun-wrapper,
 .moon-wrapper {
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #222222;
   margin: 0 10px;
 }
 
@@ -212,34 +170,9 @@ body.dark-theme {
   color: #f1eee4;
 }
 
-.toggle-button {
-  cursor: pointer;
-  width: 80px;
-  height: 40px;
-  background-color: #b357d7;
-  border: none;
-  border-radius: 20px;
-  position: relative;
-}
-
-.toggle-circle {
-  position: absolute;
-  top: 5px;
-  left: 5px;
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  background-color: #f1eee4;
-  transition: left 0.3s ease-in-out;
-}
-
-body.dark-theme .toggle-circle {
-  left: 45px;
-}
-
 /* FIXED: Section spacing - changed from 3000px to 100vh */
 .section-margin {
-  height: 1000px;
+  height: 3000px;
   width: 100%;
 }
 
@@ -440,14 +373,4 @@ body.dark-theme .toggle-circle {
 
 .progress-bar.green-background {
   background-color: var(--color-green);
-}
-
-
-/* ADD THIS NEW RULE */
-.hero-section {
-  position: relative;
-  height: 100vh;
-  width: 100%;
-  z-index: 11;
-  /* Can keep this high if needed */
 }

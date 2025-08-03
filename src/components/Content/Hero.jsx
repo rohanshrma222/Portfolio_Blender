@@ -8,7 +8,7 @@ const Hero = React.memo(({ revealHeroContent }) => {
                 {/* Intro Text */}
                 <div
                     className={cn(
-                        'absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-[#222] pointer-events-none transition-opacity duration-500',
+                        'absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none transition-opacity duration-500',
                         { 'opacity-0': revealHeroContent, 'opacity-100': !revealHeroContent }
                     )}
                 >
@@ -18,7 +18,7 @@ const Hero = React.memo(({ revealHeroContent }) => {
                 {/* Arrow SVG */}
                 <div
                     className={cn(
-                        'absolute top-[90%] left-1/2 -translate-x-1/2 text-[#222] pointer-events-none transition-opacity duration-500 animate-bounce',
+                        'absolute top-[90%] left-1/2 -translate-x-1/2 pointer-events-none transition-opacity duration-500 animate-bounce',
                         { 'opacity-0': revealHeroContent, 'opacity-100': !revealHeroContent }
                     )}
                 >
@@ -33,7 +33,7 @@ const Hero = React.memo(({ revealHeroContent }) => {
                 {/* Hero Main */}
                 <div
                     className={cn(
-                        'absolute top-1/2 left-[5%] text-[#222] text-left opacity-0 translate-y-10 transition-all duration-800 ease-[cubic-bezier(.4,0,.2,1)]',
+                        'absolute top-1/2 left-[5%] text-left opacity-0 translate-y-10 transition-all duration-800 ease-[cubic-bezier(.4,0,.2,1)]',
                         { 'opacity-100 translate-y-0': revealHeroContent }
                     )}
                 >

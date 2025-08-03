@@ -35,10 +35,21 @@ export default function App() {
   }, []);
 
 
+  useEffect(() => {
+    const storedTheme = localStorage.getItem('theme');
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+    const initialTheme = storedTheme || (prefersDark ? 'dark' : 'light');
+    setTheme(initialTheme);
+    document.documentElement.classList.toggle('dark', initialTheme === 'dark');
+  }, []);
+
+  // ✅ Toggle theme
   const handleThemeToggle = useCallback(() => {
     const newTheme = theme === 'light' ? 'dark' : 'light';
     setTheme(newTheme);
-    document.body.classList.toggle('dark-theme', newTheme === 'dark');
+    document.documentElement.classList.toggle('dark', newTheme === 'dark');
+    localStorage.setItem('theme', newTheme); // persist
   }, [theme]);
 
 
