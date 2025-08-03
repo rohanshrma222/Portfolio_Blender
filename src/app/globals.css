@@ -1,3 +1,5 @@
+@import "tailwindcss";
+
 /* Basic Reset & Font */
 * {
   margin: 0;
@@ -65,17 +67,44 @@ body.dark-theme {
   justify-content: center;
   align-items: center;
 }
+
 .preloader.hidden {
   display: none;
 }
-.loading { display: flex; }
-.circle { width: 20px; height: 20px; border-radius: 50%; margin: 0 10px; background-color: #e5a1aa; animation: load 1s infinite; }
-.circle:nth-child(2) { animation-delay: 0.2s; }
-.circle:nth-child(3) { animation-delay: 0.4s; }
+
+.loading {
+  display: flex;
+}
+
+.circle {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  margin: 0 10px;
+  background-color: #e5a1aa;
+  animation: load 1s infinite;
+}
+
+.circle:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.circle:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
 @keyframes load {
-  0% { transform: scale(1); }
-  50% { transform: scale(1.5); }
-  100% { transform: scale(1); }
+  0% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.5);
+  }
+
+  100% {
+    transform: scale(1);
+  }
 }
 
 /* Scrollable Page - Middle Layer */
@@ -99,37 +128,63 @@ body.dark-theme {
   left: 0;
   z-index: 11;
 }
-.hero-main, .hero-second, .intro-text, .arrow-svg-wrapper {
+
+.hero-main,
+.hero-second,
+.intro-text,
+.arrow-svg-wrapper {
   color: #222222;
   pointer-events: none;
 }
-.dark-theme .hero-main, .dark-theme .hero-second, .dark-theme .intro-text, .dark-theme .arrow-svg-wrapper {
+
+.dark-theme .hero-main,
+.dark-theme .hero-second,
+.dark-theme .intro-text,
+.dark-theme .arrow-svg-wrapper {
   color: #f1eee4;
 }
+
 .dark-theme .hero-wrapper {
   color: #f1eee4;
 }
 
-.intro-text { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); }
-.arrow-svg-wrapper { position: absolute; top: 90%; left: 50%; transform: translateX(-50%); }
+.intro-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.arrow-svg-wrapper {
+  position: absolute;
+  top: 90%;
+  left: 50%;
+  transform: translateX(-50%);
+}
 
 /* FIX: Adjusted positioning for the desired layout */
-.hero-main { 
-  position: absolute; 
-  top: 50%; 
-  left: 5%; 
-  transform: translateY(-20%); 
-  text-align: left; 
+.hero-main, .hero-second {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.8s cubic-bezier(.4,0,.2,1), transform 0.8s cubic-bezier(.4,0,.2,1);
 }
-.hero-main-title { font-size: 74px; }
-.hero-main-description { font-size: 24px; }
+.hero-main.hero-animate, .hero-second.hero-animate {
+  opacity: 1;
+  transform: translateY(0);
+}
 
-.hero-second { 
-  position: absolute; 
-  top: 50%; 
-  right: 10%; 
-  transform: translateY(-50%); 
-  text-align: right; 
+/* Add these new styles */
+.section {
+  min-height: 100vh;
+  padding: 80px 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.section-text, .section-heading {
+  opacity: 1 !important;
+  visibility: visible !important;
 }
 
 /* Theme Toggle */
@@ -142,17 +197,31 @@ body.dark-theme {
   display: flex;
   align-items: center;
 }
-.sun-wrapper, .moon-wrapper {
+
+.sun-wrapper,
+.moon-wrapper {
   display: flex;
   align-items: center;
   justify-content: center;
   color: #222222;
   margin: 0 10px;
 }
-.dark-theme .sun-wrapper, .dark-theme .moon-wrapper {
-    color: #f1eee4;
+
+.dark-theme .sun-wrapper,
+.dark-theme .moon-wrapper {
+  color: #f1eee4;
 }
-.toggle-button { cursor: pointer; width: 80px; height: 40px; background-color: #b357d7; border: none; border-radius: 20px; position: relative; }
+
+.toggle-button {
+  cursor: pointer;
+  width: 80px;
+  height: 40px;
+  background-color: #b357d7;
+  border: none;
+  border-radius: 20px;
+  position: relative;
+}
+
 .toggle-circle {
   position: absolute;
   top: 5px;
@@ -169,15 +238,15 @@ body.dark-theme .toggle-circle {
 }
 
 /* FIXED: Section spacing - changed from 3000px to 100vh */
-.section-margin { 
-  height: 3000px; 
-  width: 100%; 
+.section-margin {
+  height: 1000px;
+  width: 100%;
 }
 
 /* FIXED: Better section layout and visibility */
-.section { 
-  min-height: 100vh; 
-  width: 100%; 
+.section {
+  min-height: 100vh;
+  width: 100%;
   z-index: 12;
   position: relative;
   padding: 80px 40px;
@@ -191,7 +260,50 @@ body.dark-theme .toggle-circle {
   background: rgba(255, 230, 230, 0.95) !important;
 }
 
-.second-section {  
+/* ===== MODIFICATION FOR "ABOUT ME" SECTION ===== */
+
+/* This makes the first section behave like a card on the left */
+.first-section {
+  /* Sizing */
+  height: auto;
+  /* Allow content to determine height */
+  max-height: 100vh;
+  /* Set a maximum height (e.g., 75% of the viewport height) */
+  max-width: 650px;
+  /* Set a maximum width to pull it in from the right */
+
+  /* Positioning */
+  margin-top: 10vh;
+  /* Give it some space from the top of the viewport */
+  margin-left: 5vw;
+  /* Position it from the left edge */
+  margin-right: auto;
+  /* Ensures it stays aligned to the left */
+  margin-bottom: auto;
+  /* Helps with vertical alignment */
+
+  /* Styling */
+  background: rgba(252, 252, 250, 0.9) !important;
+  /* Make background slightly more opaque */
+  border-radius: 16px;
+  /* Add rounded corners for a card look */
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  /* Add a subtle shadow for depth */
+  padding: 40px;
+  /* Adjust padding for the smaller container */
+
+  /* Ensure it has a higher z-index to appear above the scroll track */
+  z-index: 12;
+  position: relative;
+  /* This is already on .section but good to be explicit */
+}
+
+/* This is your existing rule, you can leave it as is or remove it if the above rule replaces it */
+/* .first-section {
+  background: rgba(255, 230, 230, 0.95) !important;
+} */
+
+.second-section {
   background: rgba(230, 243, 255, 0.95) !important;
 }
 
@@ -202,7 +314,7 @@ body.dark-theme .toggle-circle {
 /* FIXED: Ensure text is always visible */
 .section-text {
   color: #333 !important;
-  font-size: 16px !important; 
+  font-size: 16px !important;
   line-height: 1.6 !important;
   margin: 15px 0 !important;
 }
@@ -219,7 +331,8 @@ body.dark-theme .toggle-circle {
 /* Section Intro Wrapper */
 .section-intro-wrapper {
   position: relative;
-  padding: 5% 5%; /* CHANGED: reduced from 20% to 5% */
+  padding: 5% 5%;
+  /* CHANGED: reduced from 20% to 5% */
   border-bottom: 2px solid var(--color-pink);
   margin-bottom: 40px;
 }
@@ -227,6 +340,7 @@ body.dark-theme .toggle-circle {
 .section-intro-wrapper.blue-text {
   border-bottom: 2px solid var(--color-blue);
 }
+
 .section-intro-wrapper.green-text {
   border-bottom: 2px solid var(--color-green);
 }
@@ -294,7 +408,8 @@ body.dark-theme .toggle-circle {
 /* Section Details */
 .section-detail-wrapper {
   position: relative;
-  padding: 5% 5%; /* CHANGED: reduced from 20% to 5% */
+  padding: 5% 5%;
+  /* CHANGED: reduced from 20% to 5% */
 }
 
 /* Progress Bar */
@@ -325,4 +440,14 @@ body.dark-theme .toggle-circle {
 
 .progress-bar.green-background {
   background-color: var(--color-green);
+}
+
+
+/* ADD THIS NEW RULE */
+.hero-section {
+  position: relative;
+  height: 100vh;
+  width: 100%;
+  z-index: 11;
+  /* Can keep this high if needed */
 }

@@ -4,9 +4,9 @@ import dynamic from 'next/dynamic';
 import { useEffect, useState, useCallback } from 'react';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import gsap from 'gsap';
-import Hero from '@/components/Tool/Hero';
-import ToggleBar from '@/components/Tool/ToggleBar';
-import PortfolioSections from '@/components/PortfolioSections';
+import Hero from '@/components/Content/Hero';
+import ToggleBar from '@/components/Content/ToggleBar';
+import PortfolioSections from '@/components/Content/PortfolioSections';
 
 const Experience = dynamic(() => import('@/components/Experience'), {
   ssr: false,

@@ -12,10 +12,12 @@
     "@ashthornton/asscroll": "^2.0.11",
     "@react-three/drei": "^10.5.1",
     "@react-three/fiber": "^9.2.0",
+    "clsx": "^2.1.1",
     "gsap": "^3.13.0",
     "next": "15.4.1",
     "react": "19.1.0",
     "react-dom": "19.1.0",
+    "tailwind-merge": "^3.3.1",
     "three": "^0.178.0"
   },
   "devDependencies": {
