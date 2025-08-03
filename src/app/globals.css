@@ -35,27 +35,8 @@
   }
 }
 
-/* Main Wrapper */
-.experience-wrapper {
-  position: fixed;
-  width: 100vw;
-  height: 100vh;
-  top: 0;
-  left: 0;
-}
-
-/* 3D Canvas - Background Layer */
-.experience-canvas {
-  position: fixed !important;
-  width: 100%;
-  height: 100%;
-  top: 0;
-  left: 0;
-  z-index: 1;
-}
-
 /* Preloader - Topmost Layer */
-.preloader {
+/* .preloader {
   position: fixed;
   top: 0;
   left: 0;
@@ -105,7 +86,7 @@
   100% {
     transform: scale(1);
   }
-}
+} */
 
 /* Scrollable Page - Middle Layer */
 .page {

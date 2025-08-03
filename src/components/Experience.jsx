@@ -12,7 +12,7 @@ export default function Experience({ device, onAssetsReady, assets, showFullMode
 
   return (
     <Canvas
-      className="experience-canvas"
+      className="fixed w-full h-full top-0 left-0 z-[1]"
       shadows
       gl={{
         antialias: true,

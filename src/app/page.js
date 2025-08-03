@@ -7,12 +7,14 @@ import gsap from 'gsap';
 import Hero from '@/components/Content/Hero';
 import ToggleBar from '@/components/Content/ToggleBar';
 import PortfolioSections from '@/components/Content/PortfolioSections';
+import Preloader from '@/components/Content/Preloader';
 
 const Experience = dynamic(() => import('@/components/Experience'), {
   ssr: false,
 });
 
 import { ThemeContext } from '@/context/ThemeContext';
+import { Preload } from '@react-three/drei';
 
 export default function App() {
   const [theme, setTheme] = useState('light');
@@ -44,7 +46,7 @@ export default function App() {
     document.documentElement.classList.toggle('dark', initialTheme === 'dark');
   }, []);
 
-  // ✅ Toggle theme
+  // Toggle theme
   const handleThemeToggle = useCallback(() => {
     const newTheme = theme === 'light' ? 'dark' : 'light';
     setTheme(newTheme);
@@ -251,7 +253,7 @@ export default function App() {
   }, [assets, isIntroPlaying, device]);
 
   return (
-    <div className="experience-wrapper">
+    <div className="fixed w-screen h-screen top-0 left-0">
       <ThemeContext.Provider value={theme}>
         <Experience
           device={device}
@@ -262,15 +264,7 @@ export default function App() {
         />
       </ThemeContext.Provider>
 
-      <div className="preloader">
-        <div className="preloader-wrapper">
-          <div className="loading">
-            <div className="circle"></div>
-            <div className="circle"></div>
-            <div className="circle"></div>
-          </div>
-        </div>
-      </div>
+      <Preloader />
 
       <div className="page" asscroll-container="true">
         <div className="page-wrapper" asscroll="true">
