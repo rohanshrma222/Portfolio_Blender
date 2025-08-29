@@ -243,7 +243,7 @@ export default function App() {
       <div className="page relative top-0 left-0 w-full overflow-auto y-scroll z-10 bg-transparent" asscroll-container="true">
         <div className="page-wrapper" asscroll="true" style={{ height: "18000px" }}>
           <Hero revealHeroContent={revealHeroContent} />
-          {/* <PortfolioSections /> */}
+          <PortfolioSections /> 
         </div>
       </div>
       <ToggleBar assets={assets} theme={theme} onThemeToggle={handleThemeToggle} />

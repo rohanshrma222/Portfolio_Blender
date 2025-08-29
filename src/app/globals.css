@@ -17,3 +17,7 @@
     line-height: 1.7;
   }
 }
+
+.progress-bar {
+  transform-origin: top center;
+}

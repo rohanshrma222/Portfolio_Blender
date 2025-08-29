@@ -50,58 +50,7 @@ const Hero = React.memo(({ revealHeroContent }) => {
                     )}
                 >
                     <p className="text-2xl">Rohan Sharma</p>
-                </div>
-            </section>
-
-            {/* SECTION 2 - Refactored for better layout */}
-            <section className="relative w-full min-h-screen bg-green-500 z-10 p-8 md:p-16">
-                <div className="max-w-7xl mx-auto">
-                    {/* Top Row: About, Work, Contact */}
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
-                        {/* About Me */}
-                        <div>
-                            <h2 className="text-3xl font-bold mb-4">About Me</h2>
-                            <p className="text-lg leading-7">
-                                Hi there 👋! I'm a passionate Full-Stack Developer who loves
-                                crafting interactive, user-centric digital experiences. I specialize
-                                in React.js, Next.js, and Node.js, and I enjoy blending clean design
-                                with powerful functionality.
-                            </p>
-                        </div>
-
-                        {/* My Work */}
-                        <div>
-                            <h2 className="text-3xl font-bold mb-4">My Work</h2>
-                            <h3 className="mb-2 mt-6 text-2xl font-bold text-gray-900">New Delhi</h3>
-                        </div>
-
-                        {/* Contact */}
-                        <div>
-                            <h2 className="text-3xl font-bold mb-4">Contact Me</h2>
-                            <p className="text-lg leading-7">I post all my work here...</p>
-                            <h3 className="mb-2 mt-6 text-2xl font-bold text-gray-900">LinkedIn</h3>
-                            <p className="text-base mt-2">Career updates and so much more!</p>
-                        </div>
-                    </div>
-
-                    {/* Projects Section */}
-                    <div>
-                        <h2 className="text-4xl font-bold mb-8">Projects</h2>
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                            <div className="bg-white/10 backdrop-blur-sm rounded-lg p-6">
-                                <h3 className="text-xl font-bold mb-2">Project 1</h3>
-                                <p>Description of your first project...</p>
-                            </div>
-                            <div className="bg-white/10 backdrop-blur-sm rounded-lg p-6">
-                                <h3 className="text-xl font-bold mb-2">Project 2</h3>
-                                <p>Description of your second project...</p>
-                            </div>
-                            <div className="bg-white/10 backdrop-blur-sm rounded-lg p-6">
-                                <h3 className="text-xl font-bold mb-2">Project 3</h3>
-                                <p>Description of your third project...</p>
-                            </div>
-                        </div>
-                    </div>
+                    <p className="text-2xl">Portfolio</p>
                 </div>
             </section>
         </div>
