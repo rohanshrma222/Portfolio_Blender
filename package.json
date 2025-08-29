@@ -12,6 +12,7 @@
     "@ashthornton/asscroll": "^2.0.11",
     "@react-three/drei": "^10.5.1",
     "@react-three/fiber": "^9.2.0",
+    "classnames": "^2.5.1",
     "clsx": "^2.1.1",
     "gsap": "^3.13.0",
     "next": "15.4.1",

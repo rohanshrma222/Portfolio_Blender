@@ -25,8 +25,6 @@ export default function App() {
   const [showFullModel, setShowFullModel] = useState(false);
   const [isModelRevealed, setIsModelRevealed] = useState(false);
 
-
-
   useEffect(() => {
     const handleResize = () => {
       setDevice(window.innerWidth < 968 ? 'mobile' : 'desktop');
@@ -35,7 +33,6 @@ export default function App() {
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
-
 
   useEffect(() => {
     const storedTheme = localStorage.getItem('theme');
@@ -53,7 +50,6 @@ export default function App() {
     document.documentElement.classList.toggle('dark', newTheme === 'dark');
     localStorage.setItem('theme', newTheme); // persist
   }, [theme]);
-
 
   useEffect(() => {
     if (assets && !isIntroPlaying) {
@@ -88,12 +84,6 @@ export default function App() {
           .to(".toggle-bar", { opacity: 1, duration: 0.5 }, "drop+=1.3")
           .to(".arrow-svg-wrapper", { opacity: 1, duration: 0.5 }, "drop+=1.3")
 
-          // Show page content
-          .from(".page-wrapper", {
-            opacity: 0,
-            duration: 1.0
-          }, "drop+=1.4")
-
           // Set up scroll listener for model reveal
           .call(() => {
             window.addEventListener("wheel", revealFullModel, { once: true });
@@ -114,7 +104,6 @@ export default function App() {
           setShowFullModel(true);
           setIsModelRevealed(true);
 
-          // Ensure room is visible and positioned correctly
           if (assets.room) {
             assets.room.visible = true;
             assets.room.position.set(0, 0, 0);
@@ -123,7 +112,6 @@ export default function App() {
           }
         })
 
-          // Show hero content immediately
           .call(() => {
             setRevealHeroContent(true);
           }, null, "reveal")
@@ -141,14 +129,12 @@ export default function App() {
             duration: 0.5
           })
 
-          // Spin
           .to(assets.nodes.chut.rotation, {
-            y: "+=" + Math.PI * 2, // full 360-degree spin
+            y: "+=" + Math.PI * 2,
             ease: "power2.inOut",
             duration: 0.8
           })
 
-          // Shrink to zero
           .to(assets.nodes.chut.scale, {
             x: 0,
             y: 0,
@@ -222,8 +208,6 @@ export default function App() {
             ease: "back.out(2.2)",
             duration: 0.5
           }, "reveal+=3.2")
-
-
           .to(assets.nodes.chair?.scale, {
             x: 1,
             y: 1,
@@ -231,15 +215,6 @@ export default function App() {
             ease: "back.out(2.2)",
             duration: 0.5
           }, ">-0.4")
-
-          // .to(assets.nodes.minifloor?.scale, {
-          //   x: 1,
-          //   y: 1,
-          //   z: 1,
-          //   ease: "back.out(2.2)",
-          //   duration: 0.5
-          // }, "reveal+=0.3")
-
           .to(assets.nodes.chair?.rotation, {
             y: 2.1 * Math.PI,
             ease: "power2.out",
@@ -247,7 +222,6 @@ export default function App() {
           }, "<");
       };
 
-      // Add a small delay to ensure everything is ready
       setTimeout(playIntro, 100);
     }
   }, [assets, isIntroPlaying, device]);
@@ -266,61 +240,12 @@ export default function App() {
 
       <Preloader />
 
-      <div className="page" asscroll-container="true">
-        <div className="page-wrapper" asscroll="true">
-          {/* <section className="hero">
-            <div className="hero-wrapper">
-              <div className="intro-text" style={{ opacity: 0 }}>Welcome to my portfolio!</div>
-              <div className="arrow-svg-wrapper" style={{ opacity: 0 }}>
-                <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24">
-                  <path fill="currentColor" d="M12 14.95q-.2 0-.375-.063-.175-.062-.325-.212L6.675 10.05q-.275-.275-.262-.688.012-.412.287-.687.275-.275.7-.275.425 0 .7.275l3.9 3.9 3.925-3.925q.275-.275.688-.263.412.013.687.288.275.275.275.7 0 .425-.275.7l-4.6 4.6q-.15.15-.325-.212-.175.063-.375.063Z" />
-                </svg>
-              </div>
-              <div className="hero-main">
-                <h1 className="hero-main-title" style={{ opacity: 0 }}>Rohan Sharma</h1>
-                <p className="hero-main-description" style={{ opacity: 0 }}>Full Stack Web Developer</p>
-              </div>
-              <div className="hero-second">
-                <p className="hero-second-subheading first-sub" style={{ opacity: 0 }}>ROHAN SHARMA</p>
-                <p className="hero-second-subheading second-sub" style={{ opacity: 0 }}>PORTFOLIO</p>
-              </div>
-            </div>
-          </section>
-          <div className="first-move section-margin"></div>
-          <section className="first-section section left"></section>
-          <div className="second-move section-margin"></div>
-          <section className="second-section section right"></section>
-          <div className="third-move section-margin"></div>
-          <section className="third-section section left"></section> */}
+      <div className="page relative top-0 left-0 w-full overflow-auto y-scroll z-10 bg-transparent" asscroll-container="true">
+        <div className="page-wrapper" asscroll="true" style={{ height: "18000px" }}>
           <Hero revealHeroContent={revealHeroContent} />
-          <PortfolioSections />
+          {/* <PortfolioSections /> */}
         </div>
       </div>
-
-      {/* <div className="toggle-bar" style={{ opacity: 0 }}>
-          <div className="sun-wrapper">
-            {/* [SVG icons truncated for brevity] */}
-      {/* </div>
-        <button className="toggle-button" onClick={handleThemeToggle}>
-          <div className="toggle-circle"></div>
-        </button>
-        <div className="moon-wrapper">
-          <button
-            className="sound-button"
-            onClick={() => {
-              if (isMuted) {
-                assets?.setMutedAndPlay?.();
-                setIsMuted(false);
-              } else {
-                assets?.setMuted?.();
-                setIsMuted(true);
-              }
-            }}
-            style={{ marginLeft: '10px', background: 'transparent', border: 'none', cursor: 'pointer', color: 'white' }}>
-            {isMuted ? '🔇' : '🔊'}
-          </button>
-          {/* [SVG icons truncated for brevity] */}
-      {/* </div> */}
       <ToggleBar assets={assets} theme={theme} onThemeToggle={handleThemeToggle} />
     </div>
   );

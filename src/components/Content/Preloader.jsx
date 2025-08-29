@@ -47,9 +47,10 @@ export default function App() {
                     className={`fixed top-0 left-0 w-full h-full bg-[#fcfcfa] z-50 flex justify-center items-center transition-opacity duration-1000 ease-in-out ${isLoaded ? 'opacity-0' : 'opacity-100'}`}
                 >
                     <div className="flex">
-                        <div className="w-5 h-5 rounded-full mx-2.5 bg-[#e5a1aa] animate-load"></div>
-                        <div className="w-5 h-5 rounded-full mx-2.5 bg-[#e5a1aa] animate-load animation-delay-200"></div>
-                        <div className="w-5 h-5 rounded-full mx-2.5 bg-[#e5a1aa] animate-load animation-delay-400"></div>
+                        <div className="w-5 h-5 rounded-full mx-2.5 bg-[#291e89] animate-load"></div>
+                        <div className="w-5 h-5 rounded-full mx-2.5 bg-[#291e89] animate-load animation-delay-200"></div>
+                        <div className="w-5 h-5 rounded-full mx-2.5 bg-[#2f5296] animate-load animation-delay-400"></div>
+                        <div className="w-5 h-5 rounded-full mx-2.5 bg-[#2f5296] animate-load animation-delay-600"></div>
                     </div>
                 </div>
             )}

@@ -1,251 +1,116 @@
 'use client';
 
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { useThree } from '@react-three/fiber';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 export default function Controls({ assets, device, floorCircles }) {
-    const { camera, size } = useThree();
+  const { camera, size } = useThree();
 
-    useEffect(() => {
-        if (!assets || !floorCircles.current) return;
+  useEffect(() => {
+    if (!assets || !floorCircles.current) return;
 
-        gsap.registerPlugin(ScrollTrigger);
-        document.querySelector(".page").style.overflow = "visible";
+    gsap.registerPlugin(ScrollTrigger);
+    document.querySelector(".page").style.overflow = "visible";
 
-        let asscroll;
+    let asscroll;
+    const initSmoothScroll = async () => {
+      if (device !== 'mobile') {
+        const ASScroll = (await import('@ashthornton/asscroll')).default;
+        asscroll = new ASScroll({ ease: 0.1, disableRaf: true, });
+        gsap.ticker.add(asscroll.update);
+        ScrollTrigger.defaults({ scroller: asscroll.containerElement });
+        ScrollTrigger.scrollerProxy(asscroll.containerElement, {
+          scrollTop(value) { return arguments.length ? (asscroll.currentPos = value) : asscroll.currentPos; },
+          getBoundingClientRect() { return { top: 0, left: 0, width: window.innerWidth, height: window.innerHeight }; },
+        });
+        asscroll.on("update", ScrollTrigger.update);
+        ScrollTrigger.addEventListener("refresh", asscroll.resize);
+        requestAnimationFrame(() => asscroll.enable({ newScrollElements: document.querySelectorAll(".page") }));
+      }
+      setupMainAnimationTimeline();
+    };
 
-        const initSmoothScroll = async () => {
-            if (device !== 'mobile') {
-                const ASScroll = (await import('@ashthornton/asscroll')).default;
-                asscroll = new ASScroll({
-                    ease: 0.1,
-                    disableRaf: true,
-                });
+    // Ensure all sections start hidden
+    // The lines below are commented out as section visibility is now handled in Hero.jsx
+    // gsap.set([".about-section", ".work-section", ".contact-section"], {
+    //     opacity: 0,
+    //     pointerEvents: "none"
+    // });
 
-                gsap.ticker.add(asscroll.update);
-                ScrollTrigger.defaults({ scroller: asscroll.containerElement });
+    const setupMainAnimationTimeline = () => {
+      const animatedNodes = [
+        assets.nodes.Mailbox,
+        assets.nodes.Lamp,
+        assets.nodes.Floorfirst,
+        assets.nodes.Floorsecond,
+        assets.nodes.flower1,
+        assets.nodes.flower2
+      ];
+      animatedNodes.forEach(node => node?.scale.set(0, 0, 0));
+      assets.nodes.Minifloor?.scale.set(0.001, 0.001, 0.001);
 
-                ScrollTrigger.scrollerProxy(asscroll.containerElement, {
-                    scrollTop(value) {
-                        return arguments.length ? (asscroll.currentPos = value) : asscroll.currentPos;
-                    },
-                    getBoundingClientRect() {
-                        return {
-                            top: 0,
-                            left: 0,
-                            width: window.innerWidth,
-                            height: window.innerHeight,
-                        };
-                    },
-                });
+      const room = assets.room;
+      const rectLight = room.getObjectByName("RectAreaLight");
+      let outdoorSceneHasPlayed = false;
 
-                asscroll.on("update", ScrollTrigger.update);
-                ScrollTrigger.addEventListener("refresh", asscroll.resize);
+      ScrollTrigger.matchMedia({
+        "(min-width: 969px)": () => {
+          room.scale.set(0.11, 0.11, 0.11);
 
-                requestAnimationFrame(() => asscroll.enable({ newScrollElements: document.querySelectorAll(".page") }));
+          const tl = gsap.timeline({
+            scrollTrigger: {
+              trigger: ".portfolio-container",
+              start: "top top",
+              end: "+=18000", // adjust to feel right
+              scrub: 0.6,
+              pin: true,
+              anticipatePin: 1
             }
+          });
 
-            setupScrollAnimations();
-        };
+          // PHASE 1: Model moves right
+          tl.to(room.position, { x: size.width * 0.0003, duration: 1 }, "phase1")
+            .to(floorCircles.current[0].scale, { x: 3, y: 3, z: 3, duration: 1.5 }, "phase1");
 
-        const setupScrollAnimations = () => {
-            const room = assets.room;
-            const rectLight = room.getObjectByName("RectAreaLight");
-            const nodes = assets.nodes;
+          // PHASE 2: Model scales
+          tl.to(room.position, { x: 0.8, duration: 1 }, "phase2")
+            .to(room.scale, { x: 0.4, y: 0.4, z: 0.4, duration: 1 }, "phase2")
+            .to(rectLight, { width: 2, height: 2.8, duration: 1 }, "phase2")
+            .to(floorCircles.current[1].scale, { x: 3, y: 3, z: 3, duration: 1.5 }, "phase2");
 
-            // Set initial visibility (scale to 0)
-            const animatedNodes = [
-                nodes.Mailbox,
-                nodes.Lamp,
-                nodes.Floorfirst,
-                nodes.Floorsecond,
-                nodes.flower1,
-                nodes.flower2
-            ];
+          // PHASE 3: Camera moves
+          tl.to(camera.position, { y: 1, x: 2, duration: 1 }, "phase3")
+            .to(floorCircles.current[2].scale, { x: 3, y: 3, z: 3, duration: 1.5 }, "phase3")
+            .call(() => {
+              if (!outdoorSceneHasPlayed) {
+                outdoorSceneHasPlayed = true;
+                gsap.timeline()
+                  .to(assets.nodes.Minifloor.position, { x: -2.1379, z: 2 }, "start")
+                  .to(assets.nodes.Minifloor.scale, { x: 1, y: 1, z: 1, ease: "back.out(2)" }, "start")
+                  .to(animatedNodes.map(n => n.scale), {
+                    x: 1, y: 1, z: 1,
+                    ease: "back.out(2)",
+                    stagger: 0.05
+                  }, "start+=0.2");
+              }
+            }, null, "phase3");
+        }
+      });
+    };
 
-            animatedNodes.forEach(node => {
-                if (node?.scale) {
-                    node.scale.set(0, 0, 0);
-                }
-            });
+    initSmoothScroll();
 
-            if (nodes.Minifloor?.scale) {
-                nodes.Minifloor.scale.set(0.001, 0.001, 0.001); // Very small but visible
-            }
+    return () => {
+      ScrollTrigger.getAll().forEach(t => t.kill());
+      ScrollTrigger.clearMatchMedia();
+      if (asscroll) {
+        asscroll.disable();
+        gsap.ticker.remove(asscroll.update);
+      }
+    };
+  }, [assets, device, floorCircles, camera, size]);
 
-            // Desktops
-            ScrollTrigger.matchMedia({
-                "(min-width: 969px)": () => {
-                    room.scale.set(0.11, 0.11, 0.11);
-                    if (rectLight) {
-                        rectLight.width = 0.5;
-                        rectLight.height = 0.7;
-                    }
-
-                    gsap.timeline({
-                        scrollTrigger: {
-                            trigger: ".first-move",
-                            start: "top top",
-                            end: "bottom bottom",
-                            scrub: 0.6,
-                        },
-                    }).to(room.position, { x: size.width * 0.0003 });
-
-                    const tl2 = gsap.timeline({
-                        scrollTrigger: {
-                            trigger: ".second-move",
-                            start: "top top",
-                            end: "bottom bottom",
-                            scrub: 0.6,
-                        },
-                    });
-
-                    tl2.to(room.position, { x: 0.8, z: size.height * 0.000001 }, "same")
-                        .to(room.scale, { x: 0.4, y: 0.4, z: 0.4 }, "same");
-
-                    if (rectLight) {
-                        tl2.to(rectLight, { width: 2, height: 2.8 }, "same");
-                    }
-
-                    gsap.timeline({
-                        scrollTrigger: {
-                            trigger: ".third-move",
-                            start: "top top",
-                            end: "bottom bottom",
-                            scrub: 0.6,
-                        },
-                    }).to(camera.position, { y: 2,   x: 1 });
-                },
-
-                // Mobiles
-                "(max-width: 968px)": () => {
-                    room.scale.set(0.07, 0.07, 0.07);
-                    if (rectLight) {
-                        rectLight.width = 0.3;
-                        rectLight.height = 0.4;
-                    }
-
-                    gsap.timeline({
-                        scrollTrigger: {
-                            trigger: ".first-move",
-                            start: "top top",
-                            end: "bottom bottom",
-                            scrub: 0.6,
-                        },
-                    }).to(room.scale, { x: 0.1, y: 0.1, z: 0.1 });
-
-                    const tl2m = gsap.timeline({
-                        scrollTrigger: {
-                            trigger: ".second-move",
-                            start: "top top",
-                            end: "bottom bottom",
-                            scrub: 0.6,
-                        },
-                    });
-
-                    tl2m.to(room.scale, { x: 0.25, y: 0.25, z: 0.25 }, "same")
-                        .to(room.position, { x: 1.5 }, "same");
-
-                    if (rectLight) {
-                        tl2m.to(rectLight, { width: 1.02, height: 1.36 }, "same");
-                    }
-
-                    gsap.timeline({
-                        scrollTrigger: {
-                            trigger: ".third-move",
-                            start: "top top",
-                            end: "bottom bottom",
-                            scrub: 0.6,
-                        },
-                    }).to(room.position, { z: -4.5 });
-                },
-
-                // All Devices
-                "all": () => {
-                    floorCircles.current.forEach((circle, index) => {
-                        gsap.timeline({
-                            scrollTrigger: {
-                                trigger: [".first-move", ".second-move", ".third-move"][index],
-                                start: "top top",
-                                end: "bottom bottom",
-                                scrub: 0.6,
-                            },
-                        }).to(circle.scale, { x: 3, y: 3, z: 3 });
-                    });
-
-                    document.querySelectorAll(".section").forEach(section => {
-                        const isRight = section.classList.contains("right");
-                        const progressWrapper = section.querySelector(".progress-wrapper");
-                        const progressBar = section.querySelector(".progress-bar");
-
-                        gsap.to(section, {
-                            [isRight ? "borderTopLeftRadius" : "borderTopRightRadius"]: 10,
-                            scrollTrigger: {
-                                trigger: section,
-                                start: "top bottom",
-                                end: "top top",
-                                scrub: 0.6,
-                            },
-                        });
-
-                        gsap.to(section, {
-                            [isRight ? "borderBottomLeftRadius" : "borderBottomRightRadius"]: 700,
-                            scrollTrigger: {
-                                trigger: section,
-                                start: "bottom bottom",
-                                end: "bottom top",
-                                scrub: 0.6,
-                            },
-                        });
-
-                        if (progressBar) {
-                            gsap.from(progressBar, {
-                                scaleY: 0,
-                                scrollTrigger: {
-                                    trigger: section,
-                                    start: "top top",
-                                    end: "bottom bottom",
-                                    scrub: 0.4,
-                                    pin: progressWrapper,
-                                    pinSpacing: false,
-                                },
-                            });
-                        }
-                    });
-
-                    const tlOutdoor = gsap.timeline({
-                        scrollTrigger: {
-                            trigger: ".third-move",
-                            start: "center center",
-                        },
-                    });
-
-                    if (nodes) {
-                        tlOutdoor.to(nodes.Minifloor?.position || {}, { x:-2.1379 ,z:2, duration: 0.3 }, "start");
-                        tlOutdoor.to(nodes.Minifloor?.scale || {}, { x: 1, y: 1, z: 1, duration: 0.3, ease: "back.out(2)" }, "start");
-
-                        animatedNodes.forEach((node, i) => {
-                            const delay = 0.1 + i * 0.05;
-                            tlOutdoor.to(node?.scale || {}, { x: 1, y: 1, z: 1, duration: 0.3, ease: "back.out(2)" }, `start+=${delay}`);
-                        });
-                    }
-                },
-            });
-        };
-
-        initSmoothScroll();
-
-        return () => {
-            ScrollTrigger.getAll().forEach(t => t.kill());
-            ScrollTrigger.clearMatchMedia();
-            if (asscroll) {
-                asscroll.disable();
-                gsap.ticker.remove(asscroll.update);
-            }
-        };
-    }, [assets, device, floorCircles, camera, size]);
-
-    return null;
+  return null;
 }
