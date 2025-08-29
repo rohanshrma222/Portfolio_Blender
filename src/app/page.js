@@ -9,6 +9,9 @@ import ToggleBar from '@/components/Content/ToggleBar';
 import PortfolioSections from '@/components/Content/PortfolioSections';
 import Preloader from '@/components/Content/Preloader';
 
+// Register the GSAP ScrollTrigger plugin
+gsap.registerPlugin(ScrollTrigger);
+
 const Experience = dynamic(() => import('@/components/Experience'), {
   ssr: false,
 });

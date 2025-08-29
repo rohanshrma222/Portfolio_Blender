@@ -14,7 +14,7 @@ const PortfolioSections = () => {
     <div className="portfolio-container w-full relative z-[99999]">
       <div className="page-wrapper relative">
         {/* Spacer for the first section scroll trigger */}
-        <div className="first-move h-[3000px] w-full"></div>
+        <div className="first-move h-[1000px] w-full"></div>
 
         {/* Section 1: About Me */}
         <section id="about" className="section left relative w-full md:w-1/2 p-[1000px_4%] m-0 bg-background overflow-hidden mr-auto rounded-tr-[700px] opacity-0">
@@ -41,7 +41,7 @@ const PortfolioSections = () => {
         </section>
 
         {/* Spacer */}
-        <div className="second-move h-[3000px] w-full"></div>
+        <div className="second-move h-[1000px] w-full"></div>
 
         {/* Section 2: My Work */}
         <section id="work" className="section right relative w-full md:w-1/2 p-[1000px_4%] m-0 bg-background overflow-hidden ml-auto rounded-tl-[700px] opacity-0">
@@ -66,7 +66,7 @@ const PortfolioSections = () => {
         </section>
 
         {/* Spacer */}
-        <div className="third-move h-[3000px] w-full"></div>
+        <div className="third-move h-[1000px] w-full"></div>
 
         {/* Section 3: Contact Me */}
         <section id="contact" className="section left relative w-full md:w-1/2 p-[1000px_4%] m-0 bg-background overflow-hidden mr-auto rounded-tr-[700px] opacity-0">

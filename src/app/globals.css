@@ -15,9 +15,12 @@
     font-weight: 500;
     font-size: 16px;
     line-height: 1.7;
+    -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  
   }
 }
 
 .progress-bar {
   transform-origin: top center;
 }
+
