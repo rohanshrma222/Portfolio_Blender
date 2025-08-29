@@ -17,7 +17,7 @@ const PortfolioSections = () => {
         <div className="first-move h-[3000px] w-full"></div>
 
         {/* Section 1: About Me */}
-        <section id="about" className="section left relative w-full md:w-1/2 p-[1000px_4%] m-0 bg-background overflow-hidden mr-auto rounded-tr-[700px]">
+        <section id="about" className="section left relative w-full md:w-1/2 p-[1000px_4%] m-0 bg-background overflow-hidden mr-auto rounded-tr-[700px] opacity-0">
           <div className="progress-wrapper progress-bar-wrapper-left absolute top-0 left-0 md:left-0 md:right-auto right-0 h-0 w-[12px] z-[9999]">
             <div className="progress-bar h-screen w-full bg-pink scale-y-100"></div>
           </div>
@@ -44,7 +44,7 @@ const PortfolioSections = () => {
         <div className="second-move h-[3000px] w-full"></div>
 
         {/* Section 2: My Work */}
-        <section id="work" className="section right relative w-full md:w-1/2 p-[1000px_4%] m-0 bg-background overflow-hidden ml-auto rounded-tl-[700px]">
+        <section id="work" className="section right relative w-full md:w-1/2 p-[1000px_4%] m-0 bg-background overflow-hidden ml-auto rounded-tl-[700px] opacity-0">
           <div className="progress-wrapper progress-bar-wrapper-right absolute top-0 right-0 h-0 w-[12px] z-[9999]">
             <div className="progress-bar h-screen w-full bg-blue scale-y-100"></div>
           </div>
@@ -69,7 +69,7 @@ const PortfolioSections = () => {
         <div className="third-move h-[3000px] w-full"></div>
 
         {/* Section 3: Contact Me */}
-        <section id="contact" className="section left relative w-full md:w-1/2 p-[1000px_4%] m-0 bg-background overflow-hidden mr-auto rounded-tr-[700px]">
+        <section id="contact" className="section left relative w-full md:w-1/2 p-[1000px_4%] m-0 bg-background overflow-hidden mr-auto rounded-tr-[700px] opacity-0">
            <div className="progress-wrapper progress-bar-wrapper-left absolute top-0 left-0 md:left-0 md:right-auto right-0 h-0 w-[12px] z-[9999]">
             <div className="progress-bar h-screen w-full bg-green scale-y-100"></div>
           </div>

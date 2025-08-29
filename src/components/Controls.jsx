@@ -59,7 +59,6 @@ export default function Controls({ assets, device, floorCircles }) {
           assets.nodes.Minifloor.scale.set(0.001, 0.001, 0.001);
       }
 
-
       const room = assets.room;
       const rectLight = room.getObjectByName("RectAreaLight");
       let outdoorSceneHasPlayed = false;
@@ -83,16 +82,24 @@ export default function Controls({ assets, device, floorCircles }) {
             }
           });
 
+          // Phase 1: About Me
           tl.to(room.position, { x: size.width * 0.0003, duration: 1 }, "phase1")
-            .to(floorCircles.current[0].scale, { x: 3, y: 3, z: 3, duration: 1.5 }, "phase1");
+            .to(floorCircles.current[0].scale, { x: 3, y: 3, z: 3, duration: 1.5 }, "phase1")
+            .to("#about", { opacity: 1, duration: 0.8 }, "phase1");
 
+          // Phase 2: My Work
           tl.to(room.position, { x: 0.8, duration: 1 }, "phase2")
             .to(room.scale, { x: 0.4, y: 0.4, z: 0.4, duration: 1 }, "phase2")
             .to(rectLight, { width: 2, height: 2.8, duration: 1 }, "phase2")
-            .to(floorCircles.current[1].scale, { x: 3, y: 3, z: 3, duration: 1.5 }, "phase2");
+            .to(floorCircles.current[1].scale, { x: 3, y: 3, z: 3, duration: 1.5 }, "phase2")
+            .to("#about", { opacity: 0, duration: 0.8 }, "phase2")
+            .to("#work", { opacity: 1, duration: 0.8 }, "phase2+=0.2");
 
+          // Phase 3: Contact Me
           tl.to(camera.position, { y: 1, x: 2, duration: 1 }, "phase3")
             .to(floorCircles.current[2].scale, { x: 3, y: 3, z: 3, duration: 1.5 }, "phase3")
+            .to("#work", { opacity: 0, duration: 0.8 }, "phase3")
+            .to("#contact", { opacity: 1, duration: 0.8 }, "phase3+=0.2")
             .call(() => {
               if (!outdoorSceneHasPlayed && assets.nodes.Minifloor) {
                 outdoorSceneHasPlayed = true;
@@ -159,4 +166,3 @@ export default function Controls({ assets, device, floorCircles }) {
 
   return null;
 }
-
